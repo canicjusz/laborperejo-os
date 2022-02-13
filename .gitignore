@@ -1,0 +1,11 @@
+client/node_modules
+client/package-lock.json
+assets/avatar/
+assets/logo/
+assets/resume/
+node_modules
+package-lock.json
+/public/build/
+.env
+
+.DS_Store

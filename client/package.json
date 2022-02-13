@@ -1,0 +1,45 @@
+{
+  "name": "svelte-app",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "start": "sirv public --no-clear"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^11.0.0",
+    "node-sass": "^7.0.1",
+    "rollup": "^2.3.4",
+    "rollup-plugin-css-only": "^3.1.0",
+    "rollup-plugin-delete": "^2.0.0",
+    "rollup-plugin-livereload": "^2.0.0",
+    "rollup-plugin-svelte": "^7.0.0",
+    "rollup-plugin-terser": "^7.0.0",
+    "sass": "^1.48.0",
+    "svelte": "3.39.0",
+    "svelte-preprocess": "^4.10.1"
+  },
+  "dependencies": {
+    "@tiptap/core": "^2.0.0-beta.163",
+    "@tiptap/extension-image": "^2.0.0-beta.24",
+    "@tiptap/extension-link": "^2.0.0-beta.35",
+    "@tiptap/extension-list-item": "^2.0.0-beta.20",
+    "@tiptap/extension-ordered-list": "^2.0.0-beta.27",
+    "@tiptap/extension-placeholder": "^2.0.0-beta.47",
+    "@tiptap/starter-kit": "^2.0.0-beta.171",
+    "axios": "^0.20.0",
+    "fast-equals": "^2.0.4",
+    "klona": "^2.0.5",
+    "postcss": "^8.4.5",
+    "sanitize-html": "^2.6.1",
+    "sirv": "^2.0.2",
+    "sirv-cli": "^2.0.0",
+    "svelte-loadable": "^1.5.1",
+    "svelte-routing": "^1.6.0",
+    "svelte-select": "^4.4.7",
+    "yup": "^0.32.11"
+  }
+}
