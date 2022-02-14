@@ -3,5 +3,5 @@
 </script>
 
 <div class="url-error">
-  Ĉi tiu paĝo ne ekzistas. <a href="/" use:link>Reveni hejmen.</a>
+  Ĉi tiu paĝo ne ekzistas. <a href="/" use:link>Reveni hejmen</a>.
 </div>

@@ -1,13 +1,10 @@
 <script>
   import axios from "axios";
   import * as yup from "yup";
-  import { redirectIfLoggedIn } from "../shared";
   import { error, feedback } from "../stores";
   let email = "";
   let inputError = undefined;
   let sending = false;
-
-  redirectIfLoggedIn();
 
   const schema = yup
     .string()

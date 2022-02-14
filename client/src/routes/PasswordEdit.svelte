@@ -5,12 +5,6 @@
   import { extractErrors } from "../shared";
   import { user, feedback, error } from "../stores";
 
-  const randomFromRange = (min, max) =>
-    Math.floor(Math.random() * (max - min) + min);
-
-  const randomPassword = "*".repeat(randomFromRange(9, 18));
-  let showPasswordWindow = false;
-
   const values = {
     curr: "",
     new: "",
@@ -44,7 +38,7 @@
   const sendForm = () => {
     const { newRetyped, ...valuesToSend } = values;
     axios
-      .put(`/api/account/${$user.ID}/password`, valuesToSend)
+      .put(`/api/account/${$user?.ID}/password`, valuesToSend)
       .then(feedback.change)
       .catch(error.change);
   };
@@ -56,8 +50,6 @@
       .then(sendForm)
       .catch((err) => (errors = extractErrors(err)));
   };
-
-  const switchPasswordWindow = () => (showPasswordWindow = !showPasswordWindow);
 </script>
 
 <svelte:head>
@@ -67,32 +59,66 @@
     content="Paĝo por ŝanĝi pasvorton de konto ĉe laborperejo."
   />
 </svelte:head>
-Retpoŝtadreso: <input type="text" disabled value={$user.email} />
-<div>
-  Pasvorto: {randomPassword}
-  <button on:click={switchPasswordWindow}>Ŝanĝi pasvorton</button>
-  {#if showPasswordWindow}
-    <form on:submit|preventDefault={checkForm} class="form">
-      <div>
-        La nuna pasvorto
-        <input type="password" bind:value={values.curr} />
-        {#if errors.curr}{errors.curr}{/if}
-      </div>
-      <div>
-        Nova pasvorto
-        <input type="password" bind:value={values.new} />
-        {#if errors.new}
-          {errors.new}
-        {/if}
-      </div>
-      <div>
-        Reentajpu la novan pasvorton
-        <input type="password" bind:value={values.newRetyped} />
-        {#if errors.newRetyped}
-          {errors.newRetyped}
-        {/if}
-      </div>
-      <button type="submit">Akcepti novan pasvorton</button>
-    </form>
-  {/if}
+
+<div class="form__container">
+  <form on:submit|preventDefault={checkForm} class="form">
+    <h1>Ŝanĝi pasvorton</h1>
+    <div>
+      La nuna pasvorto
+      <input
+        type="password"
+        bind:value={values.curr}
+        placeholder="Nuna pasvorto"
+      />
+      {#if errors.curr}<div class="error">{errors.curr}</div>{/if}
+    </div>
+    <div>
+      Nova pasvorto
+      <input
+        type="password"
+        bind:value={values.new}
+        placeholder="Nova pasvorto"
+      />
+      {#if errors.new}
+        <div class="error">{errors.new}</div>
+      {/if}
+    </div>
+    <div>
+      Reentajpu la novan pasvorton
+      <input
+        type="password"
+        bind:value={values.newRetyped}
+        placeholder="Nova pasvorto"
+      />
+      {#if errors.newRetyped}
+        <div class="error">{errors.newRetyped}</div>
+      {/if}
+    </div>
+    <button type="submit" class="button button--blue button--round"
+      >Ĝisdatigi pasvorton</button
+    >
+  </form>
 </div>
+
+<style lang="sass">
+  .form
+    width: 250px
+    &__container
+      display: flex
+      justify-content: center
+      align-items: center
+      min-height: calc(100vh - 100px)
+      width: 100%
+  
+    & > div
+      margin-bottom: 15px
+  
+    h1
+      max-width: 250px
+      font-family: 'Raleway', sans-serif
+      font-size: 2.3rem
+  
+    div
+      font-family: "Open Sans", sans-serif
+      position: relative
+</style>

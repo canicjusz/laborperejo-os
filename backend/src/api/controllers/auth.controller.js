@@ -84,7 +84,7 @@ const editPassword = async (req, res) => {
           error: "Ni ne povis elsaluti vin el aliaj klientoj.",
         });
       }
-      res.send("Farite");
+      res.send("Via pasvorto ĝisdatiĝis");
     } else {
       res.status(400).json({ error: "Malĝusta pasvorto." });
     }
@@ -151,7 +151,7 @@ const confirmEmail = async (req, res) => {
       }
       const email = decoded.email;
       await makeVerifiedByEmail(email);
-      res.send("Farite");
+      res.send("Via profilo ĝisdatiĝis");
     });
   } catch (e) {
     console.error(e);
@@ -188,7 +188,7 @@ const register = async (req, res) => {
           "Ni ial ne povis sendi la repoŝtmesaĝon. Bonvolu reprovi poste, aŭ kontaktu nin retpoŝte.",
       });
     }
-    res.send("Farite :)");
+    res.send("Vi registriĝis");
   } catch (e) {
     console.error(e);
     res.status(500).json({
@@ -307,7 +307,7 @@ const deleteSession = (req, res) => {
           "Ni ial ne povis vin elsalutigi. Bonvolu reprovi poste, aŭ kontaktu nin retpoŝte.",
       });
     }
-    res.send("Farite");
+    res.send("Vi elsalutis.");
   });
 };
 

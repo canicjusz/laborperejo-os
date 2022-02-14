@@ -430,6 +430,9 @@ $bordowy: #8a0b24
   column-gap: 10px
   padding: 10px 0 20px 0
 
+  .button
+    width: 200px
+
 label
   width: auto
   font-family: "Open Sans", sans-serif

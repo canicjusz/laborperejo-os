@@ -7,6 +7,7 @@
   import { user, error, feedback } from "./stores";
   import Nav from "./components/Nav.svelte";
   import { onDestroy } from "svelte";
+  import { navigate } from "svelte-routing/src/history";
   let localError, localFeedback;
   let errorTimeout, feedbackTimeout;
   let showError = false,
@@ -87,7 +88,10 @@
     <main>
       <Route path="/konfirmi-registrigxon/:token" let:params
         ><Loadable
-          loader={() => import("./routes/Confirmation.svelte")}
+          loader={() =>
+            $user
+              ? navigate(`/profiloj/${$user.ID}`)
+              : import("./routes/Confirmation.svelte")}
           token={params.token}
         >
           <div slot="loading">
@@ -98,7 +102,12 @@
         >
       </Route>
       <Route path="/ensaluti">
-        <Loadable loader={() => import("./routes/Login.svelte")}>
+        <Loadable
+          loader={() =>
+            $user
+              ? navigate(`/profiloj/${$user.ID}`)
+              : import("./routes/Login.svelte")}
+        >
           <div slot="loading">
             <div class="spinner__container">
               <Spinner />
@@ -107,7 +116,12 @@
         >
       </Route>
       <Route path="/registrigxi">
-        <Loadable loader={() => import("./routes/Register.svelte")}>
+        <Loadable
+          loader={() =>
+            $user
+              ? navigate(`/profiloj/${$user.ID}`)
+              : import("./routes/Register.svelte")}
+        >
           <div slot="loading">
             <div class="spinner__container">
               <Spinner />
@@ -116,7 +130,12 @@
         >
       </Route>
       <Route path="/peti-pasvortrestarigon">
-        <Loadable loader={() => import("./routes/AskPasswordChange.svelte")}>
+        <Loadable
+          loader={() =>
+            $user
+              ? navigate(`/profiloj/${$user.ID}`)
+              : import("./routes/AskPasswordChange.svelte")}
+        >
           <div slot="loading">
             <div class="spinner__container">
               <Spinner />
@@ -126,7 +145,10 @@
       </Route>
       <Route path="/restarigi-pasvorton/:id/:token" let:params
         ><Loadable
-          loader={() => import("./routes/PasswordChange.svelte")}
+          loader={() =>
+            $user
+              ? navigate(`/profiloj/${$user.ID}`)
+              : import("./routes/PasswordChange.svelte")}
           id={params.id}
           token={params.token}
         >
@@ -160,7 +182,10 @@
       </Route>
       <Route path="/profiloj/:id/redakti" let:params>
         <Loadable
-          loader={() => import("./routes/EditProfile.svelte")}
+          loader={() =>
+            $user
+              ? import("./routes/EditProfile.svelte")
+              : navigate(`/profiloj/${params.id}`)}
           id={params.id}
         >
           <div slot="loading">
@@ -171,7 +196,12 @@
         >
       </Route>
       <Route path="/restarigi-pasvorton">
-        <Loadable loader={() => import("./routes/PasswordEdit.svelte")}>
+        <Loadable
+          loader={() =>
+            $user
+              ? import("./routes/PasswordEdit.svelte")
+              : navigate(`/ensaluti`)}
+        >
           <div slot="loading">
             <div class="spinner__container">
               <Spinner />
@@ -180,7 +210,12 @@
         >
       </Route>
       <Route path="/firmapanelo">
-        <Loadable loader={() => import("./routes/CompanyPanel.svelte")}>
+        <Loadable
+          loader={() =>
+            $user
+              ? import("./routes/CompanyPanel.svelte")
+              : navigate(`/ensaluti`)}
+        >
           <div slot="loading">
             <div class="spinner__container">
               <Spinner />
@@ -202,7 +237,10 @@
       </Route>
       <Route path="/firmaoj/:id/redakti" let:params>
         <Loadable
-          loader={() => import("./routes/EditCompany.svelte")}
+          loader={() =>
+            $user
+              ? import("./routes/EditCompany.svelte")
+              : navigate(`/firmaoj/${params.id}`)}
           id={params.id}
         >
           <div slot="loading">
@@ -222,7 +260,12 @@
         >
       </Route>
       <Route path="/ofertpanelo">
-        <Loadable loader={() => import("./routes/OfferPanel.svelte")}>
+        <Loadable
+          loader={() =>
+            $user
+              ? import("./routes/OfferPanel.svelte")
+              : navigate(`/ensaluti`)}
+        >
           <div slot="loading">
             <div class="spinner__container">
               <Spinner />
@@ -232,7 +275,10 @@
       </Route>
       <Route path="/ofertkreilo" let:location>
         <Loadable
-          loader={() => import("./routes/CreateOffer.svelte")}
+          loader={() =>
+            $user
+              ? import("./routes/CreateOffer.svelte")
+              : navigate(`/ensaluti`)}
           {location}
         >
           <div slot="loading">
@@ -244,7 +290,10 @@
       </Route>
       <Route path="/ofertoj/:id/redakti" let:params>
         <Loadable
-          loader={() => import("./routes/EditOffer.svelte")}
+          loader={() =>
+            $user
+              ? import("./routes/EditOffer.svelte")
+              : navigate(`/ofertoj/${params.id}`)}
           id={params.id}
         >
           <div slot="loading">
@@ -273,7 +322,12 @@
         >
       </Route>
       <Route path="/peti-konfirmigxjxetonon">
-        <Loadable loader={() => import("./routes/AskTokenResend.svelte")}>
+        <Loadable
+          loader={() =>
+            $user
+              ? navigate(`/profiloj/${$user.ID}`)
+              : import("./routes/AskTokenResend.svelte")}
+        >
           <div slot="loading">
             <div class="spinner__container">
               <Spinner />

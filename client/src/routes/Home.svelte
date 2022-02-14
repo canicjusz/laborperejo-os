@@ -1,6 +1,6 @@
 <script>
   import { link } from "svelte-routing";
-  import SearchBar from "../components/SearchBar.svelte";
+  import { user } from "../stores";
   const scrollDown = () => {
     window.scroll({
       top: window.innerHeight - 50,
@@ -31,7 +31,11 @@
         <span class="hero__standing-out">internacie</span>!
       </h2>
       <div>
-        <a class="hero__button" href="/registrigxi" use:link>Registriĝi</a>
+        {#if $user}
+          <a class="hero__button" href="/registrigxi" use:link>Mia profilo</a>
+        {:else}
+          <a class="hero__button" href="/registrigxi" use:link>Registriĝi</a>
+        {/if}
         <!-- svelte-ignore a11y-invalid-attribute -->
         <a class="hero__button" href="javascript:void(0)" on:click={scrollDown}
           >Ekscii pli</a
@@ -55,7 +59,10 @@
     <h1 class="learn-more__title">Por kiu estas Laborperejo?</h1>
     <ul class="learn-more__list">
       <li class="learn-more__list-item">
-        <b>Por laborprenantoj</b>, kiuj revas labori en Esperantujo.
+        <b>Por Esperanto-asocioj</b>, kiuj serĉas fervorajn volontulojn.
+      </li>
+      <li class="learn-more__list-item">
+        <b>Por tiuj</b>, kiuj revas labori en Esperantujo.
       </li>
       <li class="learn-more__list-item">
         <b>Por labordonantoj</b>, kiuj volas aldoni iomete da internacieco al
@@ -65,11 +72,8 @@
         <b>Por rekrutistoj</b>, kiuj serĉas spertulojn pri diversaj fakoj.
       </li>
       <li class="learn-more__list-item">
-        <b>Por studentoj</b>, kiuj volas gajni sperton per internaciaj
+        <b>Por studentoj</b>, kiuj volas gajni sperton per eksterlandaj
         praktikoj.
-      </li>
-      <li class="learn-more__list-item">
-        <b>Por tiuj</b>, kiuj serĉas interesan laboron eksterlande.
       </li>
     </ul>
   </div>

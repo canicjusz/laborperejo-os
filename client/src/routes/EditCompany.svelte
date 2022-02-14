@@ -137,6 +137,14 @@
         URL.revokeObjectURL(logoSrc);
         newImg = file;
       } else {
+        error.change({
+          response: {
+            status: "",
+            data: {
+              error: "Nur bildoj kaj GIF-movbildoj alŝuteblas.",
+            },
+          },
+        });
       }
     }
   };
@@ -410,7 +418,7 @@
         Ne estas aliaj administrantoj de ĉi tiu firmao.
       {/if}
     </div>
-    <h2 class="admin-panel__title">Serĉi uzantojn</h2>
+    <h2 class="admin-panel__title">Serĉi administrantojn</h2>
     <form
       on:submit|preventDefault={() => searchAdministrator(false)}
       class="admin-panel__form"

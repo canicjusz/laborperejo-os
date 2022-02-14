@@ -133,7 +133,6 @@
       duration: 500,
     };
   };
-  $: console.log(newCompanyValues);
 </script>
 
 <svelte:head>
@@ -525,11 +524,11 @@
     align-items: center
     column-gap: 10px
 
-.button
-  max-width: 200px
-
 .buttons__container
   padding: 10px 0 20px 0
+
+  .button
+    max-width: 200px
 
 .popup
   z-index: 2

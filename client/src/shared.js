@@ -13,21 +13,25 @@ const onlyClosed = (offers) => offers.filter((offer) => offer.closed);
 
 const onlyOpened = (offers) => offers.filter((offer) => !offer.closed);
 
-const redirectIfLoggedIn = () => {
+const redirectIfLoggedIn = (path = "/") => {
   const currUser = get(user);
   if (currUser) {
-    navigate("/");
+    navigate(path, { replace: true });
+  }
+};
+
+const redirectIfNotLoggedIn = (path = "/") => {
+  const currUser = get(user);
+  if (!currUser) {
+    navigate(path, { replace: true });
+  } else {
+    return true;
   }
 };
 
 const redirectIfNotOwner = (companyID) => {
   const currUser = get(user);
-  const isOwner = currUser.companies.some(
-    (company) => company.ID === companyID
-  );
-  if (!isOwner) {
-    navigate("/");
-  }
+  currUser.companies.some((company) => company.ID === companyID);
 };
 
 const months = [
@@ -54,6 +58,7 @@ const getDate = (string) => {
 };
 
 export {
+  redirectIfNotLoggedIn,
   extractErrors,
   onlyClosed,
   redirectIfLoggedIn,

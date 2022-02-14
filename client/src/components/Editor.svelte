@@ -330,7 +330,7 @@
   $ciemny-zielony: #4caf50
   $crimson: 	#DC143C
   .editor
-    max-height: 300px
+    max-height: 450px
     overflow: auto
     font-family: 'Raleway', sans-serif
     margin-top: 10px

@@ -4,7 +4,7 @@
   import * as yup from "yup";
   import axios from "axios";
   import countries from "../../../countries";
-  import { extractErrors, redirectIfLoggedIn } from "../shared";
+  import { extractErrors } from "../shared";
   import Select from "svelte-select";
 
   const customTransition = () => {
@@ -20,7 +20,6 @@
     };
   };
 
-  redirectIfLoggedIn();
   let show = false;
   const values = {
     email: "",

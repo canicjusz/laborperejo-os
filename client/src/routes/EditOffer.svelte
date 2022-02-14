@@ -104,7 +104,7 @@
     const { company_ID, company, isOwner, close_at, ID, ...futureToEdit } =
       res.data;
     if (!isOwner) {
-      navigate("/");
+      navigate("/ofertoj/" + ID);
     }
     // mozna to latwiutko arrayem zrobic
     futureToEdit.close_at = close_at
@@ -359,8 +359,10 @@
         </div>
         {#if errors.close_at}<div class="error">{errors.close_at}</div>{/if}
         <div class="button__container">
-          <button on:click={goToOffer} disabled={!changed} class="button"
-            >Nuligi ŝanĝoj</button
+          <button
+            on:click={goToOffer}
+            disabled={!changed}
+            class="button button--red button--round">Nuligi ŝanĝoj</button
           >
         </div>
         <div class="button__container">
@@ -420,7 +422,6 @@
           content: ""
       
     &__reward, &__close
-      margin-top: 10px
       display: flex
       flex-direction: column
       row-gap: 5px
@@ -468,6 +469,9 @@
         font-family: 'Raleway', sans-serif
 
     &__right
+      display: flex
+      flex-direction: column
+      row-gap: 10px
       font-family: "Open sans", sans-serif
       font-size: 1rem
       height: max-content
@@ -475,9 +479,6 @@
     &__name
       font-size: 2rem
       font-family: 'Raleway', sans-serif
-
-    &__arrangement, &__category, &__reward, &__close
-      margin-top: 10px
 
     &__place, &__country, &__company-name, &__employment, &__arrangement, &__category
       font-family: "Open Sans", sans-serif

@@ -33,18 +33,6 @@ function serve() {
     },
   };
 }
-console.log(production);
-// const output = production
-//   ? {
-//       format: "es",
-//       dir: "public/build/",
-//     }
-//   : {
-//       sourcemap: true,
-//       format: "cjs",
-//       name: "app",
-//       file: "public/build/bundle.js",
-//     };
 
 export default {
   input: "src/main.js", // not changed

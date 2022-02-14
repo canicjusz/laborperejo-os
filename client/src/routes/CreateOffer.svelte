@@ -1,6 +1,6 @@
 <script>
   import axios from "axios";
-  import { redirectIfNotOwner, extractErrors } from "../shared";
+  import { extractErrors } from "../shared";
   import { user } from "../stores";
   import countries from "../../../countries";
   import categories from "../../../categories";
@@ -95,7 +95,6 @@
   const stateCompanyID = location?.state?.company;
 
   if (stateCompanyID) {
-    redirectIfNotOwner(stateCompanyID);
     companyID = stateCompanyID;
   } else {
     companyID = $user.companies[0].ID;
@@ -430,7 +429,6 @@
           content: ""
       
     &__reward, &__close
-      margin-top: 10px
       display: flex
       flex-direction: column
       row-gap: 5px
@@ -478,6 +476,9 @@
         font-family: 'Raleway', sans-serif
 
     &__right
+      display: flex
+      flex-direction: column
+      row-gap: 10px
       font-family: "Open sans", sans-serif
       font-size: 1rem
       height: max-content
@@ -485,9 +486,6 @@
     &__name
       font-size: 2rem
       font-family: 'Raleway', sans-serif
-
-    &__arrangement, &__category, &__reward, &__close
-      margin-top: 10px
 
     &__place, &__country, &__company-name, &__employment, &__arrangement, &__category
       font-family: "Open Sans", sans-serif

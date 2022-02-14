@@ -4,13 +4,11 @@
   import { error, user } from "../stores";
   import axios from "axios";
   import * as yup from "yup";
-  import { extractErrors, redirectIfLoggedIn } from "../shared";
-
-  redirectIfLoggedIn();
+  import { extractErrors } from "../shared";
 
   const values = {
-    email: "michalakjan@protonmail.com",
-    password: "a",
+    email: "",
+    password: "",
     saveSession: false,
   };
   let errors = {};

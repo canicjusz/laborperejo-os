@@ -5,11 +5,9 @@
   import * as yup from "yup";
   export let token;
   export let id;
-  import { extractErrors, redirectIfLoggedIn } from "../shared";
+  import { extractErrors } from "../shared";
   let sending = false;
   let show = false;
-
-  redirectIfLoggedIn();
 
   const values = {
     password: "",
