@@ -5,6 +5,7 @@ assets/avatar/*
 assets/logo/*
 !assets/logo/company-default.png
 assets/resume/*
+!assets/logo/test.pdf
 node_modules
 package-lock.json
 /public/build/
