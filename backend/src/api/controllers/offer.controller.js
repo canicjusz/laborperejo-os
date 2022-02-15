@@ -81,7 +81,9 @@ const getPage = async (req, res) => {
 
 const create = async (req, res) => {
   const { companyID, ...data } = req.body;
-  const sanitizedDescription = sanitizeHtml(data.description);
+  const sanitizedDescription = sanitizeHtml(data.description, {
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+  });
   data.description = sanitizedDescription;
   const [offer, error] = await handler(
     createByCompanyID,
@@ -147,7 +149,9 @@ const editSeveral = async (req, res) => {
 const edit = async (req, res) => {
   const offerID = req.params.offerID;
   const { ...data } = req.body;
-  const sanitizedDescription = sanitizeHtml(data.description);
+  const sanitizedDescription = sanitizeHtml(data.description, {
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+  });
   data.description = sanitizedDescription;
   const [offer, error] = await handler(updateByID, null, offerID, data);
   if (error) {

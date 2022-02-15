@@ -149,7 +149,9 @@ const remove = async (req, res) => {
 const edit = async (req, res) => {
   const data = req.body.json;
   const companyID = req.params.companyID;
-  const sanitizedDescription = sanitizeHtml(data.description);
+  const sanitizedDescription = sanitizeHtml(data.description, {
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+  });
   data.description = sanitizedDescription;
   const [, error] = await handler(updateByID, null, companyID, data);
   if (error) {

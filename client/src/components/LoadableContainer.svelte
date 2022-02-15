@@ -11,7 +11,6 @@
   if (loggedIn) {
     if (!$user) {
       passed = false;
-      // history.forward();
       navigate(to);
     }
   } else {

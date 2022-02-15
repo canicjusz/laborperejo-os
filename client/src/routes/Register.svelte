@@ -442,6 +442,9 @@
   h1, p
     margin: 10px 0
 
+    &:first-child
+      margin-top: 0
+
   h1
     font-size: 2.3rem
     font-family: 'Raleway', sans-serif
