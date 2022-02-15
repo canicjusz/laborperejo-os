@@ -1,6 +1,5 @@
 <script>
   import Loadable from "svelte-loadable";
-
   import { Router, Route } from "svelte-routing";
   import Spinner from "./components/Spinner.svelte";
   import axios from "axios";
@@ -8,6 +7,7 @@
   import Nav from "./components/Nav.svelte";
   import { onDestroy } from "svelte";
   import { navigate } from "svelte-routing/src/history";
+  import LoadableContainer from "./components/LoadableContainer.svelte";
   let localError, localFeedback;
   let errorTimeout, feedbackTimeout;
   let showError = false,
@@ -35,22 +35,6 @@
     unsubscribeError();
     unsubscribeFeedback();
   });
-
-  // const checkIfUserIsLoggedIn = () =>
-  //   axios.get("/api/session", { withCredentials: true }).then((res) => {
-  //     if (!res.data && $user !== null) {
-  //       location.reload();
-  //     }
-  //     if (res.data) {
-  //       const sessionData = res.data;
-  //       const isSameUser = sessionData.ID === $user?.ID;
-  //       if (!isSameUser) {
-  //         location.reload();
-  //       }
-  //     }
-  //   });
-
-  // globalHistory.listen(checkIfUserIsLoggedIn);
 
   const getLoggedInUser = axios
     .get("/api/users/mine", { withCredentials: true })
@@ -86,42 +70,33 @@
   {:then}
     <Nav />
     <main>
-      <Route path="/konfirmi-registrigxon/:token" let:params
-        ><Loadable
-          loader={() =>
-            $user
-              ? navigate(`/profiloj/${$user.ID}`)
-              : import("./routes/Confirmation.svelte")}
-          token={params.token}
-        >
-          <div slot="loading">
-            <div class="spinner__container">
-              <Spinner />
-            </div>
-          </div></Loadable
-        >
+      <Route path="/konfirmi-registrigxon/:token" let:params>
+        <LoadableContainer loggedIn={false} to={`/profiloj/${$user?.ID}`}
+          ><Loadable
+            loader={() => import("./routes/Confirmation.svelte")}
+            token={params.token}
+          >
+            <div slot="loading">
+              <div class="spinner__container">
+                <Spinner />
+              </div>
+            </div></Loadable
+          >
+        </LoadableContainer>
       </Route>
       <Route path="/ensaluti">
-        <Loadable
-          loader={() =>
-            $user
-              ? navigate(`/profiloj/${$user.ID}`)
-              : import("./routes/Login.svelte")}
-        >
-          <div slot="loading">
-            <div class="spinner__container">
-              <Spinner />
-            </div>
-          </div></Loadable
-        >
+        <LoadableContainer loggedIn={false} to={`/profiloj/${$user?.ID}`}>
+          <Loadable loader={() => import("./routes/Login.svelte")}>
+            <div slot="loading">
+              <div class="spinner__container">
+                <Spinner />
+              </div>
+            </div></Loadable
+          >
+        </LoadableContainer>
       </Route>
       <Route path="/registrigxi">
-        <Loadable
-          loader={() =>
-            $user
-              ? navigate(`/profiloj/${$user.ID}`)
-              : import("./routes/Register.svelte")}
-        >
+        <Loadable loader={() => import("./routes/Register.svelte")}>
           <div slot="loading">
             <div class="spinner__container">
               <Spinner />
@@ -130,34 +105,30 @@
         >
       </Route>
       <Route path="/peti-pasvortrestarigon">
-        <Loadable
-          loader={() =>
-            $user
-              ? navigate(`/profiloj/${$user.ID}`)
-              : import("./routes/AskPasswordChange.svelte")}
-        >
-          <div slot="loading">
-            <div class="spinner__container">
-              <Spinner />
-            </div>
-          </div></Loadable
-        >
+        <LoadableContainer loggedIn={false} to={`/profiloj/${$user?.ID}`}
+          ><Loadable loader={() => import("./routes/AskPasswordChange.svelte")}>
+            <div slot="loading">
+              <div class="spinner__container">
+                <Spinner />
+              </div>
+            </div></Loadable
+          >
+        </LoadableContainer>
       </Route>
-      <Route path="/restarigi-pasvorton/:id/:token" let:params
-        ><Loadable
-          loader={() =>
-            $user
-              ? navigate(`/profiloj/${$user.ID}`)
-              : import("./routes/PasswordChange.svelte")}
-          id={params.id}
-          token={params.token}
-        >
-          <div slot="loading">
-            <div class="spinner__container">
-              <Spinner />
-            </div>
-          </div></Loadable
-        >
+      <Route path="/restarigi-pasvorton/:id/:token" let:params>
+        <LoadableContainer loggedIn={false} to={`/profiloj/${$user?.ID}`}
+          ><Loadable
+            loader={() => import("./routes/PasswordChange.svelte")}
+            id={params.id}
+            token={params.token}
+          >
+            <div slot="loading">
+              <div class="spinner__container">
+                <Spinner />
+              </div>
+            </div></Loadable
+          >
+        </LoadableContainer>
       </Route>
       <Route path="/profiloj">
         <Loadable loader={() => import("./routes/searchUser.svelte")}>
@@ -181,46 +152,39 @@
         >
       </Route>
       <Route path="/profiloj/:id/redakti" let:params>
-        <Loadable
-          loader={() =>
-            $user
-              ? import("./routes/EditProfile.svelte")
-              : navigate(`/profiloj/${params.id}`)}
-          id={params.id}
-        >
-          <div slot="loading">
-            <div class="spinner__container">
-              <Spinner />
-            </div>
-          </div></Loadable
-        >
+        <LoadableContainer loggedIn={true} to={`/profiloj/${params.id}`}>
+          <Loadable
+            loader={() => import("./routes/EditProfile.svelte")}
+            id={params.id}
+          >
+            <div slot="loading">
+              <div class="spinner__container">
+                <Spinner />
+              </div>
+            </div></Loadable
+          >
+        </LoadableContainer>
       </Route>
       <Route path="/restarigi-pasvorton">
-        <Loadable
-          loader={() =>
-            $user
-              ? import("./routes/PasswordEdit.svelte")
-              : navigate(`/ensaluti`)}
-        >
-          <div slot="loading">
-            <div class="spinner__container">
-              <Spinner />
-            </div>
-          </div></Loadable
-        >
+        <LoadableContainer loggedIn={true} to="ensaluti">
+          <Loadable loader={() => import("./routes/PasswordEdit.svelte")}>
+            <div slot="loading">
+              <div class="spinner__container">
+                <Spinner />
+              </div>
+            </div></Loadable
+          >
+        </LoadableContainer>
       </Route>
       <Route path="/firmapanelo">
-        <Loadable
-          loader={() =>
-            $user
-              ? import("./routes/CompanyPanel.svelte")
-              : navigate(`/ensaluti`)}
-        >
-          <div slot="loading">
-            <div class="spinner__container">
-              <Spinner />
-            </div>
-          </div></Loadable
+        <LoadableContainer loggedIn={true} to="/ensaluti">
+          <Loadable loader={() => import("./routes/CompanyPanel.svelte")}>
+            <div slot="loading">
+              <div class="spinner__container">
+                <Spinner />
+              </div>
+            </div></Loadable
+          ></LoadableContainer
         >
       </Route>
       <Route path="/firmaoj/:id" let:params>
@@ -236,19 +200,18 @@
         >
       </Route>
       <Route path="/firmaoj/:id/redakti" let:params>
-        <Loadable
-          loader={() =>
-            $user
-              ? import("./routes/EditCompany.svelte")
-              : navigate(`/firmaoj/${params.id}`)}
-          id={params.id}
-        >
-          <div slot="loading">
-            <div class="spinner__container">
-              <Spinner />
-            </div>
-          </div></Loadable
-        >
+        <LoadableContainer loggedIn={true} to={`/firmaoj/${params.id}`}>
+          <Loadable
+            loader={() => import("./routes/EditCompany.svelte")}
+            id={params.id}
+          >
+            <div slot="loading">
+              <div class="spinner__container">
+                <Spinner />
+              </div>
+            </div></Loadable
+          >
+        </LoadableContainer>
       </Route>
       <Route path="/firmaoj">
         <Loadable loader={() => import("./routes/searchCompany.svelte")}>
@@ -260,48 +223,43 @@
         >
       </Route>
       <Route path="/ofertpanelo">
-        <Loadable
-          loader={() =>
-            $user
-              ? import("./routes/OfferPanel.svelte")
-              : navigate(`/ensaluti`)}
-        >
-          <div slot="loading">
-            <div class="spinner__container">
-              <Spinner />
-            </div>
-          </div></Loadable
-        >
+        <LoadableContainer loggedIn={true} to="/ensaluti">
+          <Loadable loader={() => import("./routes/OfferPanel.svelte")}>
+            <div slot="loading">
+              <div class="spinner__container">
+                <Spinner />
+              </div>
+            </div></Loadable
+          >
+        </LoadableContainer>
       </Route>
       <Route path="/ofertkreilo" let:location>
-        <Loadable
-          loader={() =>
-            $user
-              ? import("./routes/CreateOffer.svelte")
-              : navigate(`/ensaluti`)}
-          {location}
-        >
-          <div slot="loading">
-            <div class="spinner__container">
-              <Spinner />
-            </div>
-          </div></Loadable
-        >
+        <LoadableContainer loggedIn={true} to="/ensaluti">
+          <Loadable
+            loader={() => import("./routes/CreateOffer.svelte")}
+            {location}
+          >
+            <div slot="loading">
+              <div class="spinner__container">
+                <Spinner />
+              </div>
+            </div></Loadable
+          >
+        </LoadableContainer>
       </Route>
       <Route path="/ofertoj/:id/redakti" let:params>
-        <Loadable
-          loader={() =>
-            $user
-              ? import("./routes/EditOffer.svelte")
-              : navigate(`/ofertoj/${params.id}`)}
-          id={params.id}
-        >
-          <div slot="loading">
-            <div class="spinner__container">
-              <Spinner />
-            </div>
-          </div></Loadable
-        >
+        <LoadableContainer loggedIn={true} to={`/ofertoj/${params.id}`}>
+          <Loadable
+            loader={() => import("./routes/EditOffer.svelte")}
+            id={params.id}
+          >
+            <div slot="loading">
+              <div class="spinner__container">
+                <Spinner />
+              </div>
+            </div></Loadable
+          >
+        </LoadableContainer>
       </Route>
       <Route path="/ofertoj/:id" let:params>
         <Loadable loader={() => import("./routes/Offer.svelte")} id={params.id}>
@@ -322,18 +280,15 @@
         >
       </Route>
       <Route path="/peti-konfirmigxjxetonon">
-        <Loadable
-          loader={() =>
-            $user
-              ? navigate(`/profiloj/${$user.ID}`)
-              : import("./routes/AskTokenResend.svelte")}
-        >
-          <div slot="loading">
-            <div class="spinner__container">
-              <Spinner />
-            </div>
-          </div></Loadable
-        >
+        <LoadableContainer loggedIn={false} to={`/profiloj/${$user?.ID}`}>
+          <Loadable loader={() => import("./routes/AskTokenResend.svelte")}>
+            <div slot="loading">
+              <div class="spinner__container">
+                <Spinner />
+              </div>
+            </div></Loadable
+          >
+        </LoadableContainer>
       </Route>
       <Route path="/">
         <Loadable loader={() => import("./routes/Home.svelte")}>

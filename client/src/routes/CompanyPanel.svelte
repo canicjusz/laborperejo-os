@@ -1,8 +1,8 @@
 <script>
   import { link, navigate } from "svelte-routing";
+  import { user, error } from "../stores";
   import axios from "axios";
   import { extractErrors, onlyOpened } from "../shared";
-  import { user, error } from "../stores";
   import countries from "../../../countries";
   import categories from "../../../categories";
   import * as yup from "yup";
