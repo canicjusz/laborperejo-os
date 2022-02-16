@@ -55,13 +55,13 @@
       >
       <ul class="navbar__sub-list" class:navbar__sub-list--hidden={hide.search}>
         <li class="navbar__sub-element">
-          <Link class="navbar__link" to="/ofertoj">Ofertojn</Link>
+          <Link class="navbar__link" to="/ofertoj?p=1">Ofertojn</Link>
         </li>
         <li class="navbar__sub-element">
-          <Link class="navbar__link" to="/firmaoj">Firmaojn</Link>
+          <Link class="navbar__link" to="/firmaoj?p=1">Firmaojn</Link>
         </li>
         <li class="navbar__sub-element">
-          <Link class="navbar__link" to="/profiloj">Uzantojn</Link>
+          <Link class="navbar__link" to="/profiloj?p=1">Uzantojn</Link>
         </li>
       </ul>
     </li>

@@ -80,6 +80,14 @@
               <div class="spinner__container">
                 <Spinner />
               </div>
+            </div>
+            <div slot="error">
+              <div class="url-error">
+                Pardonon, io misiris. <a
+                  href="javascript:void()"
+                  on:click={window.location.reload}>Reŝargi paĝon</a
+                >
+              </div>
             </div></Loadable
           >
         </LoadableContainer>
@@ -91,18 +99,36 @@
               <div class="spinner__container">
                 <Spinner />
               </div>
+            </div>
+            <div slot="error">
+              <div class="url-error">
+                Pardonon, io misiris. <a
+                  href="javascript:void()"
+                  on:click={window.location.reload}>Reŝargi paĝon</a
+                >
+              </div>
             </div></Loadable
           >
         </LoadableContainer>
       </Route>
       <Route path="/registrigxi">
-        <Loadable loader={() => import("./routes/Register.svelte")}>
-          <div slot="loading">
-            <div class="spinner__container">
-              <Spinner />
+        <LoadableContainer loggedIn={false} to={`/profiloj/${$user?.ID}`}>
+          <Loadable loader={() => import("./routes/Register.svelte")}>
+            <div slot="loading">
+              <div class="spinner__container">
+                <Spinner />
+              </div>
             </div>
-          </div></Loadable
-        >
+            <div slot="error">
+              <div class="url-error">
+                Pardonon, io misiris. <a
+                  href="javascript:void()"
+                  on:click={window.location.reload}>Reŝargi paĝon</a
+                >
+              </div>
+            </div></Loadable
+          >
+        </LoadableContainer>
       </Route>
       <Route path="/peti-pasvortrestarigon">
         <LoadableContainer loggedIn={false} to={`/profiloj/${$user?.ID}`}
@@ -110,6 +136,14 @@
             <div slot="loading">
               <div class="spinner__container">
                 <Spinner />
+              </div>
+            </div>
+            <div slot="error">
+              <div class="url-error">
+                Pardonon, io misiris. <a
+                  href="javascript:void()"
+                  on:click={window.location.reload}>Reŝargi paĝon</a
+                >
               </div>
             </div></Loadable
           >
@@ -126,6 +160,14 @@
               <div class="spinner__container">
                 <Spinner />
               </div>
+            </div>
+            <div slot="error">
+              <div class="url-error">
+                Pardonon, io misiris. <a
+                  href="javascript:void()"
+                  on:click={window.location.reload}>Reŝargi paĝon</a
+                >
+              </div>
             </div></Loadable
           >
         </LoadableContainer>
@@ -136,8 +178,16 @@
             <div class="spinner__container">
               <Spinner />
             </div>
-          </div></Loadable
-        >
+          </div>
+          <div slot="error">
+            <div class="url-error">
+              Pardonon, io misiris. <a
+                href="javascript:void()"
+                on:click={window.location.reload}>Reŝargi paĝon</a
+              >
+            </div>
+          </div>
+        </Loadable>
       </Route>
       <Route path="/profiloj/:id" let:params>
         <Loadable
@@ -147,6 +197,14 @@
           <div slot="loading">
             <div class="spinner__container">
               <Spinner />
+            </div>
+          </div>
+          <div slot="error">
+            <div class="url-error">
+              Pardonon, io misiris. <a
+                href="javascript:void()"
+                on:click={window.location.reload}>Reŝargi paĝon</a
+              >
             </div>
           </div></Loadable
         >
@@ -161,6 +219,14 @@
               <div class="spinner__container">
                 <Spinner />
               </div>
+            </div>
+            <div slot="error">
+              <div class="url-error">
+                Pardonon, io misiris. <a
+                  href="javascript:void()"
+                  on:click={window.location.reload}>Reŝargi paĝon</a
+                >
+              </div>
             </div></Loadable
           >
         </LoadableContainer>
@@ -172,6 +238,14 @@
               <div class="spinner__container">
                 <Spinner />
               </div>
+            </div>
+            <div slot="error">
+              <div class="url-error">
+                Pardonon, io misiris. <a
+                  href="javascript:void()"
+                  on:click={window.location.reload}>Reŝargi paĝon</a
+                >
+              </div>
             </div></Loadable
           >
         </LoadableContainer>
@@ -182,6 +256,14 @@
             <div slot="loading">
               <div class="spinner__container">
                 <Spinner />
+              </div>
+            </div>
+            <div slot="error">
+              <div class="url-error">
+                Pardonon, io misiris. <a
+                  href="javascript:void()"
+                  on:click={window.location.reload}>Reŝargi paĝon</a
+                >
               </div>
             </div></Loadable
           ></LoadableContainer
@@ -196,6 +278,14 @@
             <div class="spinner__container">
               <Spinner />
             </div>
+          </div>
+          <div slot="error">
+            <div class="url-error">
+              Pardonon, io misiris. <a
+                href="javascript:void()"
+                on:click={window.location.reload}>Reŝargi paĝon</a
+              >
+            </div>
           </div></Loadable
         >
       </Route>
@@ -209,6 +299,14 @@
               <div class="spinner__container">
                 <Spinner />
               </div>
+            </div>
+            <div slot="error">
+              <div class="url-error">
+                Pardonon, io misiris. <a
+                  href="javascript:void()"
+                  on:click={window.location.reload}>Reŝargi paĝon</a
+                >
+              </div>
             </div></Loadable
           >
         </LoadableContainer>
@@ -219,6 +317,14 @@
             <div class="spinner__container">
               <Spinner />
             </div>
+          </div>
+          <div slot="error">
+            <div class="url-error">
+              Pardonon, io misiris. <a
+                href="javascript:void()"
+                on:click={window.location.reload}>Reŝargi paĝon</a
+              >
+            </div>
           </div></Loadable
         >
       </Route>
@@ -228,6 +334,14 @@
             <div slot="loading">
               <div class="spinner__container">
                 <Spinner />
+              </div>
+            </div>
+            <div slot="error">
+              <div class="url-error">
+                Pardonon, io misiris. <a
+                  href="javascript:void()"
+                  on:click={window.location.reload}>Reŝargi paĝon</a
+                >
               </div>
             </div></Loadable
           >
@@ -243,6 +357,14 @@
               <div class="spinner__container">
                 <Spinner />
               </div>
+            </div>
+            <div slot="error">
+              <div class="url-error">
+                Pardonon, io misiris. <a
+                  href="javascript:void()"
+                  on:click={window.location.reload}>Reŝargi paĝon</a
+                >
+              </div>
             </div></Loadable
           >
         </LoadableContainer>
@@ -257,6 +379,14 @@
               <div class="spinner__container">
                 <Spinner />
               </div>
+            </div>
+            <div slot="error">
+              <div class="url-error">
+                Pardonon, io misiris. <a
+                  href="javascript:void()"
+                  on:click={window.location.reload}>Reŝargi paĝon</a
+                >
+              </div>
             </div></Loadable
           >
         </LoadableContainer>
@@ -267,6 +397,14 @@
             <div class="spinner__container">
               <Spinner />
             </div>
+          </div>
+          <div slot="error">
+            <div class="url-error">
+              Pardonon, io misiris. <a
+                href="javascript:void()"
+                on:click={window.location.reload}>Reŝargi paĝon</a
+              >
+            </div>
           </div></Loadable
         >
       </Route>
@@ -275,6 +413,14 @@
           <div slot="loading">
             <div class="spinner__container">
               <Spinner />
+            </div>
+          </div>
+          <div slot="error">
+            <div class="url-error">
+              Pardonon, io misiris. <a
+                href="javascript:void()"
+                on:click={window.location.reload}>Reŝargi paĝon</a
+              >
             </div>
           </div></Loadable
         >
@@ -286,6 +432,14 @@
               <div class="spinner__container">
                 <Spinner />
               </div>
+            </div>
+            <div slot="error">
+              <div class="url-error">
+                Pardonon, io misiris. <a
+                  href="javascript:void()"
+                  on:click={window.location.reload}>Reŝargi paĝon</a
+                >
+              </div>
             </div></Loadable
           >
         </LoadableContainer>
@@ -296,6 +450,14 @@
             <div class="spinner__container">
               <Spinner />
             </div>
+          </div>
+          <div slot="error">
+            <div class="url-error">
+              Pardonon, io misiris. <a
+                href="javascript:void()"
+                on:click={window.location.reload}>Reŝargi paĝon</a
+              >
+            </div>
           </div></Loadable
         >
       </Route>
@@ -304,6 +466,14 @@
           <div slot="loading">
             <div class="spinner__container">
               <Spinner />
+            </div>
+          </div>
+          <div slot="error">
+            <div class="url-error">
+              Pardonon, io misiris. <a
+                href="javascript:void()"
+                on:click={window.location.reload}>Reŝargi paĝon</a
+              >
             </div>
           </div></Loadable
         ></Route

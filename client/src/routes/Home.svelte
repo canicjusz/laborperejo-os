@@ -32,7 +32,9 @@
       </h2>
       <div>
         {#if $user}
-          <a class="hero__button" href="/registrigxi" use:link>Mia profilo</a>
+          <a class="hero__button" href={`/profiloj/${user.ID}`} use:link
+            >Mia profilo</a
+          >
         {:else}
           <a class="hero__button" href="/registrigxi" use:link>Registriĝi</a>
         {/if}
