@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
   bannedOrUnconfirmed,
   loginRequired,
-} from "../middlewares/status.middleware.js";
+} from "../middlewares/auth.middleware.js";
 import { ownerOnly as companyOwnerOnly } from "../middlewares/company.middleware.js";
 import { ownerOnly } from "../middlewares/offer.middleware.js";
 import {
@@ -20,93 +20,14 @@ import {
   validateParams,
   validateQuery,
 } from "../middlewares/validate.middleware.js";
-// you should pick either IDSchema or offerIDSchema
-import { IDSchema, offerIDSchema } from "../validators.js";
-import * as yup from "yup";
-import countries from "../../../../countries.js";
-import categories from "../../../../categories.js";
-
-const workArrangements = ["hejme", "laboreje", "hibride"];
-const employmentTypes = ["plentempa", "parttempa", "aldona"];
-
-const createOfferSchema = yup.object({
-  companyID: yup.number().integer().positive().required(),
-  title: yup.string().required().max(50),
-  description: yup.string().required().max(8192),
-  salary: yup.boolean().required(),
-  reward: yup.string().required().max(70),
-  arrangement: yup.mixed().oneOf(workArrangements).required(),
-  employment: yup.mixed().oneOf(employmentTypes).required(),
-  country: yup.mixed().oneOf(countries).required(),
-  place: yup.string().required().max(100),
-  categories: yup
-    .array()
-    .of(yup.mixed().oneOf(categories))
-    .min(1)
-    .max(3)
-    .required(),
-  closed: yup.boolean().required(),
-  close_at: yup.date().when("closed", {
-    is: true,
-    then: (schema) => schema.nullable(),
-    otherwise: (schema) =>
-      schema.required().transform((string) => new Date(string)),
-  }),
-});
-
-const updateOfferSchema = yup.object({
-  title: yup.string().required().max(50),
-  description: yup.string().required().max(8192),
-  salary: yup.boolean().required(),
-  reward: yup.string().required().max(70),
-  arrangement: yup.mixed().oneOf(workArrangements).required(),
-  employment: yup.mixed().oneOf(employmentTypes).required(),
-  country: yup.mixed().oneOf(countries).required(),
-  place: yup.string().required().max(100),
-  categories: yup.array().of(yup.mixed().oneOf(categories)).min(1).max(3),
-  closed: yup.boolean().required(),
-  close_at: yup.date().when("closed", {
-    is: true,
-    then: (schema) => schema.nullable(),
-    otherwise: (schema) =>
-      schema.required().transform((string) => new Date(string)),
-  }),
-});
-
-const updateSeveralSchema = yup.object({
-  array: yup.array().of(
-    yup.object({
-      ID: yup.number().required(),
-      closed: yup.boolean().required(),
-      close_at: yup.date().when("closed", {
-        is: true,
-        then: (schema) => schema.nullable(),
-        otherwise: (schema) =>
-          schema.required().transform((string) => new Date(string)),
-      }),
-    })
-  ),
-  companyID: yup.number().integer().positive().required(),
-});
-
-//todo: getPageSchema
-
-const getPageSchema = yup.object().shape({
-  q: yup.string().ensure(),
-  p: yup.number().positive().integer().default(1),
-  d: yup
-    .string()
-    .matches(
-      /(plentempa|parttempa|aldona)((\,(plentempa|parttempa|aldona))+)?$/
-    ),
-  m: yup
-    .string()
-    .matches(/(hejme|laboreje|hibride)((\,(hejme|laboreje|hibride))+)?$/),
-  k: yup.string().matches(/^\d+((\,\d+)+)?$/),
-  l: yup.string().matches(/^\d+((\,\d+)+)?$/),
-  de: yup.number().positive().integer(),
-  nm: yup.boolean().default(true),
-});
+import { userIDSchema } from "../validators/profile.validators.js";
+import {
+  createOfferSchema,
+  updateSeveralSchema,
+  offerIDSchema,
+  updateOfferSchema,
+  getPageSchema,
+} from "../validators/offer.validators.js";
 
 const router = Router();
 
@@ -114,7 +35,7 @@ router.get("/api/offers", validateQuery(getPageSchema), getPage);
 
 router.post(
   "/api/offers/:ID/follow",
-  validateParams(IDSchema),
+  validateParams(userIDSchema),
   loginRequired,
   bannedOrUnconfirmed,
   addFollower
@@ -122,7 +43,7 @@ router.post(
 
 router.delete(
   "/api/offers/:ID/follow",
-  validateParams(IDSchema),
+  validateParams(userIDSchema),
   loginRequired,
   bannedOrUnconfirmed,
   removeFollower

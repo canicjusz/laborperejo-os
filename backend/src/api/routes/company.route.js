@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
   bannedOrUnconfirmed,
   loginRequired,
-} from "../middlewares/status.middleware.js";
+} from "../middlewares/auth.middleware.js";
 import { ownerOnly } from "../middlewares/company.middleware.js";
 import {
   get,
@@ -19,43 +19,13 @@ import {
   validateParams,
   validateQuery,
 } from "../middlewares/validate.middleware.js";
-import { companyIDSchema, userIDAndcompanyID } from "../validators.js";
-import * as yup from "yup";
-import countries from "../../../../countries.js";
-import categories from "../../../../categories.js";
-
-const getPageSchema = yup.object({
-  q: yup.string(),
-  p: yup.number().positive().integer().default(1),
-  k: yup.string().matches(/^\d+((\,\d+)+)?$/),
-  l: yup.string().matches(/^\d+((\,\d+)+)?$/),
-  mo: yup.boolean(),
-  a: yup.number().positive().integer(),
-});
-
-const createCompanySchema = yup.object({
-  industry: yup.mixed().oneOf(categories).required(),
-  name: yup.string().required().max(100),
-  country: yup.mixed().oneOf(countries).required(),
-  email: yup.string().email().required().max(320),
-  address: yup.string().required().max(100),
-});
-
-const updateCompanyScheam = yup.object({
-  logo: yup
-    .string()
-    .matches(/^\/logo(.*)/)
-    .required(),
-  industry: yup.string().required().max(100),
-  description: yup.string().required().max(8192),
-  country: yup.mixed().oneOf(countries).required(),
-  address: yup.string().required().max(100),
-  phone: yup
-    .string()
-    .matches(/^\+(?:[0-9] ?){6,14}[0-9]$/)
-    .nullable(),
-  email: yup.string().email().required().max(320),
-});
+import {
+  companyIDSchema,
+  getPageSchema,
+  createCompanySchema,
+  updateCompanySchema,
+} from "../validators/company.validators.js";
+import { userIDAndcompanyIDSchema } from "../validators/mixed.validators.js";
 
 const router = Router();
 
@@ -87,13 +57,13 @@ router.put(
   bannedOrUnconfirmed,
   ownerOnly,
   companyUpload,
-  validateBody(updateCompanyScheam),
+  validateBody(updateCompanySchema),
   edit
 );
 
 router.post(
   "/api/companies/:companyID/administrator/:userID",
-  validateParams(userIDAndcompanyID),
+  validateParams(userIDAndcompanyIDSchema),
   loginRequired,
   bannedOrUnconfirmed,
   ownerOnly,
@@ -102,7 +72,7 @@ router.post(
 
 router.delete(
   "/api/companies/:companyID/administrator/:userID",
-  validateParams(userIDAndcompanyID),
+  validateParams(userIDAndcompanyIDSchema),
   loginRequired,
   bannedOrUnconfirmed,
   ownerOnly,
