@@ -10,6 +10,7 @@ const ownerOnly = async (req, res, next) => {
     companyID
   );
   if (error) {
+    console.log(error);
     return res.status(500).json({
       error:
         "Nedefinita servila eraro. Bonvolu reprovi poste, aŭ kontaktu nin retpoŝte.",

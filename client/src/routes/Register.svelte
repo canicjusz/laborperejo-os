@@ -409,7 +409,7 @@
       border-radius: 50%
       width: 20px
       height: 20px
-      right: -40px
+      right: -35px
       border: none
       background: $szarszy
       cursor: pointer

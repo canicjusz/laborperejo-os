@@ -421,19 +421,25 @@
   
     &__real-container
       margin-top: 10px
-      border-radius: 5px 5px 2px 2px
-      overflow: hidden
+      border-radius: 5px 5px 3px 3px
+      overflow: auto
+      border-right: 1px solid $niebieski-link
+      border-left: 1px solid $niebieski-link
+      border-bottom: $niebieski-link 3px solid
   
     &__container
+      margin: 0 20px
       width: max-content
+      max-width: 100%
+      overflow: hidden
   
     &__head
       color: white
       background: $niebieski-link
   
-      &-row
-        border-right: 1px solid $niebieski-link
-        border-left: 1px solid $niebieski-link
+      // &-row
+      //   border-right: 1px solid $niebieski-link
+      //   border-left: 1px solid $niebieski-link
   
     &__cell, &__column-title
       text-align: center
@@ -451,14 +457,9 @@
       
       &-row
         background: white
-        border-right: 1px solid $najszarszy
-        border-left: 1px solid $najszarszy
         
         &:nth-of-type(even)
           background: $szary
-  
-        &:last-child
-          border-bottom: $niebieski-link 2px solid
   
   .container-of-containers
     display: flex
@@ -564,4 +565,17 @@
 
 .error
   max-width: 275px
+
+@media (max-width: 600px)
+  .form
+    grid-template-columns: 1fr
+
+@media (max-width: 450px)
+  .buttons__container
+    flex-direction: column
+    row-gap: 10px
+
+    .button
+      max-width: 100%
+
 </style>

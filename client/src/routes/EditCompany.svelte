@@ -55,6 +55,7 @@
       .max(100, "Adreso ne povas havi pli ol 100 signojn."),
     phone: yup
       .string()
+      .transform((string) => (string == "" ? null : string))
       .matches(
         /^\+(?:[0-9] ?){6,14}[0-9]$/,
         "La numero ne validas. Memoru pri telefona landokodo, por klareco vi povas dividi la numeron per spacetoj."
@@ -67,6 +68,22 @@
         "Bonvolu entajpi retpoŝtadreson, kiun uzu laborprenantoj por kontakti la firmaon."
       )
       .max(320, "Retpoŝtadreso ne povas havi pli ol 320 signojn."),
+    website: yup
+      .string()
+      .transform((string) => (string == "" ? null : string))
+      .url("La ligilo ne estas valida.")
+      .max(500, "Ligilo ne povas havi pli ol 500 signojn.")
+      .nullable(),
+    li: yup
+      .string()
+      .transform((string) => (string == "" ? null : string))
+      .url("La ligilo ne estas valida.")
+      .matches(
+        /^(?:(?:http|https):\/\/)?(?:www.)?linkedin.com.*/,
+        "Ligilo navigu al retejo linkedin.com."
+      )
+      .max(500, "Ligilo ne povas havi pli ol 500 signojn.")
+      .nullable(),
   });
   let errors = {};
 
@@ -96,6 +113,7 @@
       offersOpenedNumber,
       ...editable
     } = res.data;
+    console.log(editable, res.data);
     if (!isOwner) {
       return navigate("/firmaoj/" + id);
     }
@@ -227,27 +245,29 @@
     <div class="company">
       <div class="company__left">
         <div class="company__left-top">
-          <div class="logo__container">
-            <input
-              class="file-input"
-              type="file"
-              id="logo"
-              name="logo"
-              on:change={showImage}
-              accept="image/png, image/jpeg, image/gif"
-            />
-            <label for="logo" class="logo__label"
-              ><svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                ><path fill="none" d="M0 0h24v24H0z" /><path
-                  d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z"
-                /></svg
-              ></label
-            >
-            <img src={logoSrc} alt="" class="company__logo" />
+          <div style="display: flex; justify-content: center;">
+            <div class="logo__container">
+              <input
+                class="file-input"
+                type="file"
+                id="logo"
+                name="logo"
+                on:change={showImage}
+                accept="image/png, image/jpeg, image/gif"
+              />
+              <label for="logo" class="logo__label"
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  height="24"
+                  ><path fill="none" d="M0 0h24v24H0z" /><path
+                    d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z"
+                  /></svg
+                ></label
+              >
+              <img src={logoSrc} alt="" class="company__logo" />
+            </div>
           </div>
           <div class="company__left-top-text">
             <span class="company__name">
@@ -272,7 +292,7 @@
                   d="M5 16v6H3V3h9.382a1 1 0 0 1 .894.553L14 5h6a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1h-6.382a1 1 0 0 1-.894-.553L12 16H5zM5 5v9h8.236l1 2H19V7h-6.236l-1-2H5z"
                 /></svg
               >
-              <div class="select-container" style="width: 250px">
+              <div class="select-container">
                 <Select
                   items={countries}
                   value={toEdit.country}
@@ -310,79 +330,115 @@
             </div>{/if}
         </div>
       </div>
-    </div>
-    <div class="company__right">
-      <div class="company__industry">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          width="24"
-          height="24"
-          ><path fill="none" d="M0 0h24v24H0z" /><path
-            d="M7 5V2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v3h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h4zM4 16v3h16v-3H4zm0-2h16V7H4v7zM9 3v2h6V3H9zm2 8h2v2h-2v-2z"
-          /></svg
-        >
-        <div class="select-container" style="width: 250px">
-          <Select
-            items={categories}
-            value={toEdit.industry}
-            on:select={(e) => (toEdit.industry = e.detail.value)}
-            on:clear={(e) => (toEdit.industry = undefined)}
-            placeholder="Elekti branĉon"
-            noOptionsMessage="Mankas opcioj"
-          />
+      <div class="company__right">
+        <div class="company__industry">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            ><path fill="none" d="M0 0h24v24H0z" /><path
+              d="M7 5V2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v3h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h4zM4 16v3h16v-3H4zm0-2h16V7H4v7zM9 3v2h6V3H9zm2 8h2v2h-2v-2z"
+            /></svg
+          >
+          <div class="select-container">
+            <Select
+              items={categories}
+              value={toEdit.industry}
+              on:select={(e) => (toEdit.industry = e.detail.value)}
+              on:clear={(e) => (toEdit.industry = undefined)}
+              placeholder="Elekti branĉon"
+              noOptionsMessage="Mankas opcioj"
+            />
+          </div>
+          {#if errors.industry}<div class="error">{errors.industry}</div>{/if}
         </div>
-        {#if errors.industry}<div class="error">{errors.industry}</div>{/if}
-      </div>
-      <ul class="company__contact">
-        <li class="company__contact-element">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            width="24"
-            height="24"
-            ><path fill="none" d="M0 0h24v24H0z" /><path
-              d="M3 3h18a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm17 4.238l-7.928 7.1L4 7.216V19h16V7.238zM4.511 5l7.55 6.662L19.502 5H4.511z"
-            /></svg
+        <ul class="company__contact">
+          <li class="company__contact-element">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              ><path fill="none" d="M0 0h24v24H0z" /><path
+                d="M3 3h18a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm17 4.238l-7.928 7.1L4 7.216V19h16V7.238zM4.511 5l7.55 6.662L19.502 5H4.511z"
+              /></svg
+            >
+            <input
+              type="email"
+              bind:value={toEdit.email}
+              placeholder="Rekruta retpoŝtadreso"
+            />
+          </li>
+          {#if errors.email}<div class="error">{errors.email}</div>{/if}
+          <li class="company__contact-element">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              ><path fill="none" d="M0 0h24v24H0z" /><path
+                d="M9.366 10.682a10.556 10.556 0 0 0 3.952 3.952l.884-1.238a1 1 0 0 1 1.294-.296 11.422 11.422 0 0 0 4.583 1.364 1 1 0 0 1 .921.997v4.462a1 1 0 0 1-.898.995c-.53.055-1.064.082-1.602.082C9.94 21 3 14.06 3 5.5c0-.538.027-1.072.082-1.602A1 1 0 0 1 4.077 3h4.462a1 1 0 0 1 .997.921A11.422 11.422 0 0 0 10.9 8.504a1 1 0 0 1-.296 1.294l-1.238.884zm-2.522-.657l1.9-1.357A13.41 13.41 0 0 1 7.647 5H5.01c-.006.166-.009.333-.009.5C5 12.956 11.044 19 18.5 19c.167 0 .334-.003.5-.01v-2.637a13.41 13.41 0 0 1-3.668-1.097l-1.357 1.9a12.442 12.442 0 0 1-1.588-.75l-.058-.033a12.556 12.556 0 0 1-4.702-4.702l-.033-.058a12.442 12.442 0 0 1-.75-1.588z"
+              /></svg
+            >
+            <input
+              type="tel"
+              bind:value={toEdit.phone}
+              placeholder="+48 123 456 789"
+            />
+          </li>
+          {#if errors.phone}<div class="error">{errors.phone}</div>{/if}
+          <li class="company__contact-element">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              ><path fill="none" d="M0 0h24v24H0z" /><path
+                d="M18.335 18.339H15.67v-4.177c0-.996-.02-2.278-1.39-2.278-1.389 0-1.601 1.084-1.601 2.205v4.25h-2.666V9.75h2.56v1.17h.035c.358-.674 1.228-1.387 2.528-1.387 2.7 0 3.2 1.778 3.2 4.091v4.715zM7.003 8.575a1.546 1.546 0 0 1-1.548-1.549 1.548 1.548 0 1 1 1.547 1.549zm1.336 9.764H5.666V9.75H8.34v8.589zM19.67 3H4.329C3.593 3 3 3.58 3 4.297v15.406C3 20.42 3.594 21 4.328 21h15.338C20.4 21 21 20.42 21 19.703V4.297C21 3.58 20.4 3 19.666 3h.003z"
+              /></svg
+            >
+            <input
+              type="url"
+              bind:value={toEdit.li}
+              placeholder="https://www.linkedin.com"
+            />
+          </li>
+          <div class="error">
+            {#if errors.li}{errors.li}{/if}
+          </div>
+          <li class="company__contact-element">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              ><path fill="none" d="M0 0h24v24H0z" /><path
+                d="M10 6v2H5v11h11v-5h2v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6zm11-3v8h-2V6.413l-7.793 7.794-1.414-1.414L17.585 5H13V3h8z"
+              /></svg
+            >
+            <input
+              type="url"
+              bind:value={toEdit.website}
+              placeholder="https://www.via-pagxaro.com"
+            />
+          </li>
+          {#if errors.website}<div class="error">{errors.website}</div>{/if}
+        </ul>
+        <div class="button__container">
+          <button
+            on:click={goToProfile}
+            disabled={!changed}
+            class="button button--red button--round">Nuligi ŝanĝoj</button
           >
-          <input
-            type="email"
-            bind:value={toEdit.email}
-            placeholder="Rekruta retpoŝtadreso"
-          />
-        </li>
-        {#if errors.email}<div class="error">{errors.email}</div>{/if}
-        <li class="company__contact-element">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            width="24"
-            height="24"
-            ><path fill="none" d="M0 0h24v24H0z" /><path
-              d="M9.366 10.682a10.556 10.556 0 0 0 3.952 3.952l.884-1.238a1 1 0 0 1 1.294-.296 11.422 11.422 0 0 0 4.583 1.364 1 1 0 0 1 .921.997v4.462a1 1 0 0 1-.898.995c-.53.055-1.064.082-1.602.082C9.94 21 3 14.06 3 5.5c0-.538.027-1.072.082-1.602A1 1 0 0 1 4.077 3h4.462a1 1 0 0 1 .997.921A11.422 11.422 0 0 0 10.9 8.504a1 1 0 0 1-.296 1.294l-1.238.884zm-2.522-.657l1.9-1.357A13.41 13.41 0 0 1 7.647 5H5.01c-.006.166-.009.333-.009.5C5 12.956 11.044 19 18.5 19c.167 0 .334-.003.5-.01v-2.637a13.41 13.41 0 0 1-3.668-1.097l-1.357 1.9a12.442 12.442 0 0 1-1.588-.75l-.058-.033a12.556 12.556 0 0 1-4.702-4.702l-.033-.058a12.442 12.442 0 0 1-.75-1.588z"
-            /></svg
+        </div>
+        <div class="button__container">
+          <button
+            on:click={checkForm}
+            disabled={!changed}
+            class="button button--green button--round">Akcepti ŝanĝojn</button
           >
-          <input
-            type="tel"
-            bind:value={toEdit.phone}
-            placeholder="+48 123 456 789"
-          />
-        </li>
-        {#if errors.phone}<div class="error">{errors.phone}</div>{/if}
-      </ul>
-      <div class="button__container">
-        <button
-          on:click={goToProfile}
-          disabled={!changed}
-          class="button button--red button--round">Nuligi ŝanĝoj</button
-        >
-      </div>
-      <div class="button__container">
-        <button
-          on:click={checkForm}
-          disabled={!changed}
-          class="button button--green button--round">Akcepti ŝanĝojn</button
-        >
+        </div>
       </div>
     </div>
   </div>
@@ -565,7 +621,7 @@ hr
 .company
   display: grid
   column-gap: 20px
-  grid-template-columns: 642px max-content
+  grid-template-columns: 642px 287px
 
   &__container
     display: flex
@@ -666,6 +722,7 @@ hr
       font-family: 'Raleway', sans-serif
 
     &__form
+      box-sizing: border-box
       column-gap: 30px
       display: flex
       background: white
@@ -678,4 +735,45 @@ hr
 
       input
         width: 370px
+
+@media (max-width: 1000px)
+  .company
+    display: grid
+    grid-template-columns: minmax(100%, 642px)
+    margin: 0 20px
+    row-gap: 20px
+
+  .select-container
+    max-width: 100%
+
+@media (max-width: 700px)
+  .company
+
+    &__name
+      text-align: center
+
+    &__left-top
+      grid-template-columns: auto
+
+      &-text
+        margin: 0
+      
+  .logo
+    text-align: center
+
+    &__container
+      text-align: center
+
+  .admin-panel__form
+    flex-direction: column
+    row-gap: 10px
+    width: calc(100% - 40px)
+
+    input, button
+      width: 100%
+      max-width: 100%
+
+  .button__container
+    width: 100%
+
 </style>

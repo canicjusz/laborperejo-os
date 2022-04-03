@@ -117,6 +117,7 @@ const create = async (req, res) => {
   const sessionID = req.session.ID;
   const [company, error] = await handler(createByID, null, sessionID, req.body);
   if (error) {
+    console.log(error);
     return res.status(500).json({
       error:
         "Ni ial ne povis krei la firmaon. Bonvolu reprovi poste, aŭ kontaktu nin retpoŝte.",
@@ -163,7 +164,8 @@ const edit = async (req, res) => {
         error: "Firmao kun ĉi tiu identigilo ne ekzistas.",
       });
     }
-    res.status(500).json({
+    console.log(error);
+    return res.status(500).json({
       error:
         "Ni ial ne povis redakti la firmaon. Bonvolu reprovi poste, aŭ kontaktu nin retpoŝte.",
     });
@@ -200,7 +202,8 @@ const addAdministrator = async (req, res) => {
         });
       }
     }
-    res.status(500).json({
+    console.log(error);
+    return res.status(500).json({
       error:
         "Ni ial ne povis aldoni la administranton. Bonvolu reprovi poste, aŭ kontaktu nin retpoŝte.",
     });
@@ -237,7 +240,8 @@ const removeAdministrator = async (req, res) => {
         });
       }
     }
-    res.status(500).json({
+    console.log(error);
+    return res.status(500).json({
       error:
         "Ni ial ne povis forigi la administranton. Bonvolu reprovi poste, aŭ kontaktu nin retpoŝte.",
     });

@@ -505,9 +505,7 @@
   .eye
     right: 5px
     height: 42px
-    bottom: 0
     position: absolute
-
 
   html
     scroll-behavior: smooth
@@ -572,6 +570,7 @@
     --border: none
     --padding: 0
     --inputFontSize: 1.2rem
+    --clearSelectRight: 0
     
     input
       border: none !important
@@ -590,9 +589,9 @@
   border-radius: 10px
   border: 1px solid #a30f2c
   padding: 10px
-  position: absolute
+  position: fixed
   opacity: 0
-  z-index: 1
+  z-index: 99
   transition: 0.5s opacity, 0.5s transform
   color: white
   font-family: "Open Sans", sans-serif
@@ -723,5 +722,24 @@ label
 
 img
   max-width: 100%
+
+object
+  font-family: "Open-Sans", sans-serif
+
+input[type="checkbox"]
+  flex-shrink: 0
+
+*
+  overflow-wrap: anywhere
+
+@media (max-width: 1000px)
+  .profile, .offer, .company
+    input:not(input[type="checkbox"])
+      max-width: 100%
+
+@media (max-width: 600px)
+  .container-of-containers
+    input:not(input[type="checkbox"]), .select-container
+      max-width: 100%
 
 </style>

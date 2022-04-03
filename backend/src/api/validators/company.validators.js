@@ -34,6 +34,18 @@ const updateCompanySchema = yup.object({
     .matches(/^\+(?:[0-9] ?){6,14}[0-9]$/)
     .nullable(),
   email: yup.string().email().required().max(320),
+  website: yup
+    .string()
+    .transform((string) => (string == "" ? null : string))
+    .url("La ligilo ne estas valida.")
+    .max(500, "Ligilo ne povas havi pli ol 500 signojn.")
+    .nullable(),
+  li: yup
+    .string()
+    .url()
+    .matches(/^(?:(?:http|https):\/\/)?(?:www.)?linkedin.com.*/)
+    .max(500)
+    .nullable(),
 });
 
 const companyIDSchema = yup.object({

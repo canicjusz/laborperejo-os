@@ -176,7 +176,10 @@
       >
         <div class="filters__filter-employments">
           {#each employmentTypes as employmentType, index}
-            <label for={"employment-" + index}>
+            <label
+              for={"employment-" + index}
+              class="filters__filter-employments-label"
+            >
               <input
                 type="checkbox"
                 name=""
@@ -195,7 +198,10 @@
       >
         <div class="filters__filter-arrangements">
           {#each workArrangements as arrangement, index}
-            <label for={"arrangement-" + index}>
+            <label
+              for={"arrangement-" + index}
+              class="filters__filter-arrangements-label"
+            >
               <input
                 type="checkbox"
                 name=""
@@ -288,7 +294,6 @@ input[type="search"]::-webkit-search-results-decoration
 .filters
 
   &__expander
-
     user-select: none
     width: 150px
     height: 50px
@@ -334,12 +339,10 @@ input[type="search"]::-webkit-search-results-decoration
       content: ""
       width: 10px
       height: 10px
-      // background: transparent
       transform: rotate(45deg)
       border-bottom: 2px solid $szarszy
       border-right: 2px solid $szarszy
       margin-bottom: 5px
-      // clip-path: polygon(50% 100%, 0 0, 100% 0)
 
   &__filter
     margin-top: 20px
@@ -362,6 +365,7 @@ input[type="search"]::-webkit-search-results-decoration
         height: 1rem
 
     &-categories
+      overflow: auto
       row-gap: 20px
       column-gap: 10px
       display: grid
@@ -381,7 +385,7 @@ input[type="search"]::-webkit-search-results-decoration
 
     &-countries
       width: max-content
-      max-height: 350px
+      max-height: 300px
       overflow-y: auto
       overflow-x: hidden
       display: grid
@@ -402,4 +406,52 @@ input[type="search"]::-webkit-search-results-decoration
   display: flex
   justify-content: center
   margin-bottom: 20px
+
+@media (max-width: 1000px)
+  .filters__filter-categories
+    grid-template-columns: repeat(3, 1fr)
+
+  .filters__filter-countries
+    grid-template-rows: repeat(90, max-content)
+
+@media (max-width: 800px)
+
+  .search-form
+    padding: 20px 20px 10px 20px
+
+  .filters__filter-categories
+    grid-template-columns: repeat(2, 1fr)
+
+  .filters__filter-countries
+    grid-template-rows: repeat(130, max-content)
+
+  .top
+    flex-direction: column
+
+  .filters__expander
+    width: 100%
+    justify-content: center
+    column-gap: 10px
+
+  .filters__expander-list
+    flex-direction: column
+
+  .form
+    
+    &__search, &__button
+      max-width: 100%
+      width: 100%
+
+@media (max-width: 520px)
+  .filters__filter-employments-label, .filters__filter-arrangements-label
+    width: 100px !important
+    column-gap: 5px !important
+
+  .filters__filter-categories
+    grid-template-columns: 1fr
+
+  .filters__filter-countries
+    grid-template-rows: repeat(260, max-content)
+    
+
 </style>

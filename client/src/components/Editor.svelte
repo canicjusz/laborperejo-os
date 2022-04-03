@@ -1,5 +1,6 @@
 <script>
   import { onMount, onDestroy } from "svelte";
+  import { error } from "../stores";
   import { Editor } from "@tiptap/core";
   import StarterKit from "@tiptap/starter-kit";
   import Image from "@tiptap/extension-image";
@@ -9,6 +10,12 @@
   let element;
   let editor;
   let focused = false;
+
+  let showLinkPopup = false;
+  let showImagePopup = false;
+
+  let link = "";
+  let image = "";
 
   export let placeholder;
   export let value;
@@ -38,26 +45,38 @@
   });
 
   const addImage = () => {
-    const url = window.prompt("URL");
-
-    if (url) {
-      editor.chain().focus().setImage({ src: url }).run();
+    if (/\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(image)) {
+      editor.chain().focus().setImage({ src: image }).run();
+      showImagePopup = false;
+    } else {
+      error.change({
+        response: {
+          status: "",
+          data: {
+            error:
+              "Nur Ligeblas bildoj kun etendaĵo jpg, jpeg, png, webp, avif, gif, svg.",
+          },
+        },
+      });
     }
+  };
+
+  const addLink = () => {
+    editor
+      .chain()
+      .focus()
+      .extendMarkRange("link")
+      .setLink({ href: link, target: "_blank" })
+      .run();
+    showLinkPopup = false;
   };
 
   const toggleLink = () => {
     const isLink = editor.isActive("link");
-
     if (isLink) {
-      editor.chain().focus().unsetLink().run();
+      editor.chain().focus().extendMarkRange("link").unsetLink().run();
     } else {
-      const url = window.prompt("URL");
-      editor
-        .chain()
-        .focus()
-        .extendMarkRange("link")
-        .setLink({ href: url })
-        .run();
+      showLinkPopup = true;
     }
   };
 
@@ -181,7 +200,11 @@
           /></svg
         >
       </button>
-      <button on:click={toggleLink} title="Ligilo" class="menu__button"
+      <button
+        on:click={toggleLink}
+        title="Ligilo"
+        class="menu__button"
+        disabled={editor.view.state.selection.empty}
         ><svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -192,7 +215,10 @@
           /></svg
         >
       </button>
-      <button on:click={addImage} title="Aldoni bildon" class="menu__button"
+      <button
+        on:click={() => (showImagePopup = true)}
+        title="Aldoni bildon"
+        class="menu__button"
         ><svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -317,6 +343,42 @@
 
   <div bind:this={element} class="editor" />
 </div>
+<div class="popup__container" class:popup--on={showImagePopup}>
+  <div class="popup__container-background" />
+  <div class="popup">
+    <input
+      type="text"
+      class="popup__input"
+      placeholder="Ligilo al bildo"
+      bind:value={image}
+    />
+    <button on:click={addImage} class="button button--blue button--round"
+      >Aldoni</button
+    >
+    <button
+      on:click={() => (showImagePopup = false)}
+      class="button button--red button--round">Nuligi</button
+    >
+  </div>
+</div>
+<div class="popup__container" class:popup--on={showLinkPopup}>
+  <div class="popup__container-background" />
+  <div class="popup">
+    <input
+      type="text"
+      class="popup__input"
+      placeholder="Ligilo"
+      bind:value={link}
+    />
+    <button on:click={addLink} class="button button--blue button--round"
+      >Aldoni</button
+    >
+    <button
+      on:click={() => (showLinkPopup = false)}
+      class="button button--red button--round">Nuligi</button
+    >
+  </div>
+</div>
 
 <style global lang="sass">
   $navy: #005ea9
@@ -352,7 +414,7 @@
   
   .menu
     display: flex
-    justify-content: space-evenly
+    flex-wrap: wrap
     &__button
       background: transparent
       border: none
@@ -360,6 +422,7 @@
       width: 32px
       height: 32px
       padding: 0
+      margin: 2px
       display: flex
       justify-content: center
       align-items: center
@@ -381,4 +444,41 @@
     height: 0
     pointer-events: none
 
+.popup
+  position: relative
+  display: flex
+  flex-direction: column
+  row-gap: 10px
+  z-index: 2
+  height: max-content
+  width: 300px
+  background: $szary
+  padding: 10px
+
+  &__input
+    max-width: 100% !important
+    width: 100% !important
+
+  &__container
+    display: none
+
+    &-background
+      position: absolute
+      background: black
+      opacity: 0.3
+      width: 100%
+      height: 100%
+      top: 0
+      left: 0
+  
+  &--on
+    display: flex
+    align-items: center
+    justify-content: center
+    z-index: 4
+    width: 100%
+    height: 100%
+    top: 0
+    left: 0
+    position: fixed
 </style>

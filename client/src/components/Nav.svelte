@@ -3,6 +3,7 @@
   import { user, error } from "../stores";
   import { getDate } from "../shared";
   import axios from "axios";
+  import { globalHistory } from "svelte-routing/src/history";
 
   let hide = {
     search: true,
@@ -10,11 +11,13 @@
     panels: true,
     watched: true,
   };
+  let hamburgerClicked = false;
   const hideKeys = Object.keys(hide);
-  const hideExpandedBut = (openedKey) =>
+  const hideExpandedBut = (openedKey) => {
     hideKeys.forEach((key) => {
       hide[key] = key === openedKey ? !hide[key] : true;
     });
+  };
   const hideIfOutside = (e) => {
     const element = e.target;
     if (
@@ -34,11 +37,13 @@
         user.set(null);
       })
       .catch(error.change);
+
+  globalHistory.listen(() => (hamburgerClicked = false));
 </script>
 
 <svelte:window on:click={hideIfOutside} />
 
-<nav class="navbar">
+<nav class="navbar navbar--full">
   <ul class="navbar__list">
     <li class="navbar__element">
       <Link to="/" class="navbar__link"
@@ -86,16 +91,16 @@
           </li>
         </ul>
       </li>{/if}
-    <li class="navbar__element">
+    <!-- <li class="navbar__element">
       <Link to="/" class="navbar__link">Helpo</Link>
     </li>
     <li class="navbar__element">
       <Link to="/" class="navbar__link">Pri ni</Link>
-    </li>
+    </li> -->
   </ul>
   {#if $user}
-    <ul class="navbar__list">
-      <li style="height: 100%" class="navbar__star star">
+    <ul class="navbar__list navbar__list-left">
+      <li class="navbar__star star">
         <svg
           class="star__svg"
           on:click={() => hideExpandedBut("watched")}
@@ -184,6 +189,144 @@
   {/if}
 </nav>
 
+<nav class="navbar navbar--mobile">
+  <div class="navbar__inner-container">
+    <Link to="/" class="navbar__logo-container"
+      ><img src="/emblemo.jpg" alt="" class="navbar__logo" /></Link
+    >
+    <div class="navbar__right-side">
+      {#if $user}
+        <div class="star">
+          <svg
+            class="star__svg"
+            on:click={() => hideExpandedBut("watched")}
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            ><path fill="none" d="M0 0h24v24H0z" /><path
+              d="M12 18.26l-7.053 3.948 1.575-7.928L.587 8.792l8.027-.952L12 .5l3.386 7.34 8.027.952-5.935 5.488 1.575 7.928z"
+            /></svg
+          >
+          <span class="star__number">{$user.watchlist.length}</span>
+          <div
+            class="navbar__window window"
+            class:window--hidden={hide.watched}
+          >
+            {#if $user.watchlist.length > 0}
+              <ul class="window__list">
+                {#each $user.watchlist as offer}
+                  <li class="window__element">
+                    <img
+                      src={offer.company.logo}
+                      alt=""
+                      class="window__image"
+                    />
+                    <div class="window__text">
+                      <a
+                        use:link
+                        href={"/ofertoj/" + offer.ID}
+                        class="window__link">{offer.title}</a
+                      >
+                      {#if offer.closed}
+                        <small style="color: red;">La oferto jam fermiĝis</small
+                        >
+                      {:else}
+                        <small>Fermonta {getDate(offer.close_at)}</small>
+                      {/if}
+                    </div>
+                  </li>
+                {/each}
+              </ul>
+            {:else}
+              <p style="margin: 10px;">Vi observas neniun oferton</p>
+            {/if}
+          </div>
+        </div>
+      {/if}
+      <div
+        class="hamburger"
+        class:hamburger--clicked={hamburgerClicked}
+        on:click={() => (hamburgerClicked = !hamburgerClicked)}
+      >
+        <div class="hamburger__cheese" />
+        <div class="hamburger__meat" />
+        <div class="hamburger__bun" />
+      </div>
+    </div>
+  </div>
+  <ul class="navbar__list" class:navbar__list--show={hamburgerClicked}>
+    <li class="navbar__element">
+      <!-- svelte-ignore a11y-invalid-attribute -->
+      <span
+        on:click={() => hideExpandedBut("search")}
+        class="navbar__expander"
+        href="javascript:void()"
+        class:navbar__expander--active={!hide.search}>Serĉi</span
+      >
+      <ul class="navbar__sub-list" class:navbar__sub-list--hidden={hide.search}>
+        <li class="navbar__sub-element">
+          <Link class="navbar__link" to="/ofertoj?p=1">Ofertojn</Link>
+        </li>
+        <li class="navbar__sub-element">
+          <Link class="navbar__link" to="/firmaoj?p=1">Firmaojn</Link>
+        </li>
+        <li class="navbar__sub-element">
+          <Link class="navbar__link" to="/profiloj?p=1">Uzantojn</Link>
+        </li>
+      </ul>
+    </li>
+    {#if $user}
+      <li class="navbar__element">
+        <!-- svelte-ignore a11y-invalid-attribute -->
+        <span
+          on:click={() => hideExpandedBut("panels")}
+          class="navbar__expander"
+          href="javascript:void()"
+          class:navbar__expander--active={!hide.panels}>Paneloj</span
+        >
+        <ul
+          class="navbar__sub-list"
+          class:navbar__sub-list--hidden={hide.panels}
+        >
+          <li class="navbar__sub-element">
+            <Link class="navbar__link" to="/firmapanelo">Firmopanelo</Link>
+          </li>
+          <li class="navbar__sub-element">
+            <Link class="navbar__link" to="/ofertpanelo">Ofertpanelo</Link>
+          </li>
+        </ul>
+      </li>
+      <li class="navbar__element">
+        <Link class="navbar__link" to={`/profiloj/${$user.ID}`}
+          >Mia profilo</Link
+        >
+      </li>
+      <li class="navbar__element">
+        <Link class="navbar__link" to="/firmapanelo">Firmopanelo</Link>
+      </li>
+      <li class="navbar__element">
+        <Link class="navbar__link" to="/ofertpanelo">Ofertpanelo</Link>
+      </li>
+      <li class="navbar__element">
+        <Link class="navbar__link" to="/restarigi-pasvorton"
+          >Restarigi pasvorton</Link
+        >
+      </li>
+      <li on:click={deleteSession} class="navbar__element">
+        <span class="navbar__link">Elsaluti</span>
+      </li>
+    {:else}
+      <li class="navbar__element">
+        <Link class="navbar__link" to="/registrigxi">Registriĝi</Link>
+      </li>
+      <li class="navbar__element">
+        <Link class="navbar__link" to="/ensaluti">Ensaluti</Link>
+      </li>
+    {/if}
+  </ul>
+</nav>
+
 <style lang="sass" global>
   $navy: #005ea9
   $szary: #f1f1f1
@@ -266,6 +409,9 @@
     font-family: 'Open Sans', sans-serif
     border-bottom: 1px solid $szarszy
 
+    &--mobile
+      display: none
+
     &__logo
       height: 100%
       width: 100%
@@ -277,6 +423,11 @@
       padding: 0
       list-style: none
       display: flex
+
+      &-left
+
+        .navbar__expander::after
+          margin-right: 20px
 
     &__sub
 
@@ -316,6 +467,27 @@
       &:hover, &--active
         background: $szary
 
+    &__expander
+
+      &::after
+        content: ""
+        margin-left: 10px
+        width: 10px
+        height: 10px
+        transform: rotate(45deg)
+        border-bottom: 2px solid $niebieski-link
+        border-right: 2px solid $niebieski-link
+        margin-bottom: 5px
+
+      &--active
+
+        &::after
+          border-bottom: none !important
+          border-right: none !important
+          border-top: 2px solid $niebieski-link
+          border-left: 2px solid $niebieski-link
+          margin-top: 10px
+
     &__link
       text-decoration: underline
 
@@ -329,9 +501,10 @@
 
     &__name
       pointer-events: none
-      padding-right: 20px
+
 
 .star
+  height: 100%
   display: flex
   justify-content: center
   align-items: center
@@ -364,5 +537,95 @@
     color: white
     background: $crimson
     font-size: 0.7rem
+
+.hamburger
+  z-index: 2
+  display: flex
+  cursor: pointer
+  width: 40px
+  box-sizing: content-box
+  height: 40px
+  justify-content: space-around
+  flex-direction: column
+
+  &__cheese, &__meat, &__bun
+    pointer-events: none
+    height: 5px
+    width: 40px
+    background: black
+    transition: transform 0.3s ease-in-out
+
+  &--clicked .hamburger__cheese
+    transform: translateY(260%) rotate(45deg)
+
+  &--clicked .hamburger__meat
+    transform: rotate(-45deg)
+
+  &--clicked .hamburger__bun
+    transform: translateX(51px)
+
+@media (max-width: 800px)
+  .navbar
+
+    &__inner-container
+      background: $bialy
+      display: flex
+      width: 100%
+      justify-content: space-between
+      z-index: 2
+      position: relative
+
+    &__expander, &__link
+      border-bottom: 1px solid $szarszy 
+      box-sizing: border-box
+      height: 50px
+
+    &__sub-list ~ &__expander
+      background: red
+
+    &__element
+      width: 100%
+      box-sizing: border-box
+      min-height: 50px
+
+    &__sub-list
+      border: none
+      background: $szary
+      position: relative
+
+    &__list
+      left: 0
+      transform: translateY(-500px)
+      transition: transform 0.4s ease-in-out
+      width: 100%
+      height: auto
+      flex-direction: column
+      top: 50px
+      background: white
+      position: absolute
+      display: flex
+
+      &--show
+        transform: translateY(0)
+
+    &__right-side
+      margin-right: 10px
+      display: flex
+      align-items: center
+      height: 100%
+      column-gap: 20px
+
+    &__logo
+
+      &-container
+        height: 100%
+        display: flex
+        width: 150px
+
+    &--full
+      display: none
+
+    &--mobile
+      display: flex
 
 </style>

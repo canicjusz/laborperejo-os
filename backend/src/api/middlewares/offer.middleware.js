@@ -6,6 +6,7 @@ const ownerOnly = async (req, res, next) => {
   const ID = req.session.ID;
   const [offer, error] = await handler(getAdministratorsByID, null, offerID);
   if (error) {
+    console.log(error);
     return res.status(500).json({
       error:
         "Nedefinita servila eraro. Bonvolu reprovi poste, aŭ kontaktu nin retpoŝte.",

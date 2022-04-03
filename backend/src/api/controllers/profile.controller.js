@@ -34,7 +34,6 @@ const get = async (req, res) => {
 const editCurrent = async (req, res) => {
   const ID = req.session.ID;
   const data = req.body.json;
-
   const sanitizedContent = sanitizeHtml(data.content, {
     allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
   });
@@ -49,7 +48,7 @@ const editCurrent = async (req, res) => {
         error: "Profilo kun ĉi tiu identigilo ne ekzistas.",
       });
     }
-
+    console.log(error);
     return res.status(500).json({
       error:
         "Ni ial ne povis redakti la profilon. Bonvolu reprovi poste, aŭ kontaktu nin retpoŝte.",

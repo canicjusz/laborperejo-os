@@ -142,7 +142,8 @@
                     on:click={() => changeObservation(offer.ID)}
                     class="offer__star"
                     >{#if $user.watchlist.some((followedOffer) => followedOffer.ID === offer.ID)}
-                      Malobservi <svg
+                      <span class="offer__star-text">Malobservi</span>
+                      <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
                         width="24"
@@ -150,7 +151,8 @@
                         ><path fill="none" d="M0 0h24v24H0z" /><path
                           d="M12 18.26l-7.053 3.948 1.575-7.928L.587 8.792l8.027-.952L12 .5l3.386 7.34 8.027.952-5.935 5.488 1.575 7.928z"
                         /></svg
-                      >{:else}Observi <svg
+                      >{:else}<span class="offer__star-text">Observi</span>
+                      <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
                         width="24"
@@ -234,7 +236,8 @@ $crimson: 	#DC143C
   font-size: 1.2rem
 
 .pagination
-  padding: 20px 0
+  box-sizing: border-box
+  padding: 20px
   width: 100%
   justify-content: center
   display: flex
@@ -286,10 +289,10 @@ $crimson: 	#DC143C
     border-radius: 5px
 
   &__container
+    padding: 0 20px 70px 20px
     align-items: center
     display: flex
     flex-direction: column
-    padding-bottom: 70px
 
   &__title, &__company
     margin: 0
@@ -325,5 +328,11 @@ $crimson: 	#DC143C
   &:last-child
     border: none
 
+@media (max-width: 1000px)
+  .offer
+    width: 100%
+
+  .offer__star-text
+    display: none
 
 </style>

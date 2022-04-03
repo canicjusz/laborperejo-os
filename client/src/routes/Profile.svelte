@@ -9,6 +9,7 @@
   const getProfile = () =>
     axios.get(`/api/users/${id}`).then((res) => {
       name = res.data.name;
+      console.log(res.data);
       return res.data;
     });
 </script>
@@ -30,7 +31,9 @@
       <div class="profile">
         <div class="profile__left">
           <div class="profile__left-top">
-            <img src={user.profile.avatar} alt="" class="profile__avatar" />
+            <div class="profile__avatar-container">
+              <img src={user.profile.avatar} alt="" class="profile__avatar" />
+            </div>
             <div class="profile__left-top-text">
               <span class="profile__name">
                 {user.name}
@@ -170,6 +173,20 @@
                 {user.profile.phone}
               </li>
             {/if}
+            {#if user.profile.li}
+              <li class="profile__contact-element">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  height="24"
+                  ><path fill="none" d="M0 0h24v24H0z" /><path
+                    d="M18.335 18.339H15.67v-4.177c0-.996-.02-2.278-1.39-2.278-1.389 0-1.601 1.084-1.601 2.205v4.25h-2.666V9.75h2.56v1.17h.035c.358-.674 1.228-1.387 2.528-1.387 2.7 0 3.2 1.778 3.2 4.091v4.715zM7.003 8.575a1.546 1.546 0 0 1-1.548-1.549 1.548 1.548 0 1 1 1.547 1.549zm1.336 9.764H5.666V9.75H8.34v8.589zM19.67 3H4.329C3.593 3 3 3.58 3 4.297v15.406C3 20.42 3.594 21 4.328 21h15.338C20.4 21 21 20.42 21 19.703V4.297C21 3.58 20.4 3 19.666 3h.003z"
+                  /></svg
+                >
+                <a href={user.profile.li} target="_blank">LinkedIne</a>
+              </li>
+            {/if}
             {#if user.profile.fb}
               <li class="profile__contact-element">
                 <svg
@@ -181,7 +198,7 @@
                     d="M12 2C6.477 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.879V14.89h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.989C18.343 21.129 22 16.99 22 12c0-5.523-4.477-10-10-10z"
                   /></svg
                 >
-                <a href={user.profile.fb}>Fejsbuke</a>
+                <a href={user.profile.fb} target="_blank">Fejsbuke</a>
               </li>
             {/if}
             {#if user.profile.vk}
@@ -196,13 +213,29 @@
                     d="M13.162 18.994c.609 0 .858-.406.851-.915-.031-1.917.714-2.949 2.059-1.604 1.488 1.488 1.796 2.519 3.603 2.519h3.2c.808 0 1.126-.26 1.126-.668 0-.863-1.421-2.386-2.625-3.504-1.686-1.565-1.765-1.602-.313-3.486 1.801-2.339 4.157-5.336 2.073-5.336h-3.981c-.772 0-.828.435-1.103 1.083-.995 2.347-2.886 5.387-3.604 4.922-.751-.485-.407-2.406-.35-5.261.015-.754.011-1.271-1.141-1.539-.629-.145-1.241-.205-1.809-.205-2.273 0-3.841.953-2.95 1.119 1.571.293 1.42 3.692 1.054 5.16-.638 2.556-3.036-2.024-4.035-4.305-.241-.548-.315-.974-1.175-.974h-3.255c-.492 0-.787.16-.787.516 0 .602 2.96 6.72 5.786 9.77 2.756 2.975 5.48 2.708 7.376 2.708z"
                   /></svg
                 >
-                <a href={user.profile.vk}>Vkontakte</a>
+                <a href={user.profile.vk} target="_blank">Vkontakte</a>
               </li>
             {/if}
             {#if user.profile.mv}
               <li class="profile__contact-element">
                 <i class="mv-icon" />
-                <a href={user.profile.mv}>Miavive</a>
+                <a href={user.profile.mv} target="_blank">Miavive</a>
+              </li>
+            {/if}
+            {#if user.profile.website}
+              <li class="profile__contact-element">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  height="24"
+                  ><path fill="none" d="M0 0h24v24H0z" /><path
+                    d="M10 6v2H5v11h11v-5h2v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6zm11-3v8h-2V6.413l-7.793 7.794-1.414-1.414L17.585 5H13V3h8z"
+                  /></svg
+                >
+                <a href={user.profile.website} target="_blank"
+                  >{user.profile.website}</a
+                >
               </li>
             {/if}
           </ul>
@@ -236,7 +269,7 @@ $crimson: 	#DC143C
 .profile
   display: grid
   column-gap: 20px
-  grid-template-columns: 642px max-content
+  grid-template-columns: 642px 287px
 
   &__container
     display: flex
@@ -327,4 +360,28 @@ $crimson: 	#DC143C
 .resume
   width: 100%
   min-height: 500px
+
+@media (max-width: 1000px)
+  .profile
+    grid-template-columns: minmax(100%, 642px)
+    margin: 0 20px
+    row-gap: 20px
+
+@media (max-width: 700px)
+  .profile
+
+    &__name
+      text-align: center
+
+    &__left-top
+      grid-template-columns: auto
+
+      &-text
+        margin: 0
+      
+    &__avatar
+      text-align: center
+
+      &-container
+        text-align: center
 </style>

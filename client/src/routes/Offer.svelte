@@ -29,14 +29,15 @@
     <div class="offer">
       <div class="offer__left">
         <div class="offer__left-top">
-          <Link to={offer.companyID}>
-            <img src={offer.company.logo} alt="" class="offer__avatar" />
-          </Link>
+          <div class="offer__logo-container">
+            <Link to={offer.companyID}>
+              <img src={offer.company.logo} alt="" class="offer__avatar" />
+            </Link>
+          </div>
           <div class="offer__left-top-text">
             <span class="offer__name">
               {offer.title}
             </span>
-
             <span class="offer__company-name">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -178,7 +179,7 @@ $crimson: 	#DC143C
 .offer
   display: grid
   column-gap: 20px
-  grid-template-columns: 642px max-content
+  grid-template-columns: 642px 287px
 
   &__container
     display: flex
@@ -232,4 +233,28 @@ $crimson: 	#DC143C
     column-gap: 10px
     align-items: center
     text-decoration: none
+
+@media (max-width: 1000px)
+  .offer
+    grid-template-columns: minmax(100%, 642px)
+    margin: 0 20px
+    row-gap: 20px
+
+@media (max-width: 700px)
+  .offer
+
+    &__name
+      text-align: center
+
+    &__left-top
+      grid-template-columns: auto
+
+      &-text
+        margin: 0
+      
+    &__logo
+      text-align: center
+
+      &-container
+        text-align: center
 </style>

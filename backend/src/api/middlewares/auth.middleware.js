@@ -38,10 +38,11 @@ const bannedOrUnconfirmed = async (req, res, next) => {
   }
   const [data, prismaError] = await handler(getBanAndConfirmed, null, ID);
   if (prismaError) {
+    console.log(prismaError);
     return res.status(500).end();
   }
   if (!data) {
-    res.status(400).json({ error: "Via uzanto ne ekzistas" });
+    return res.status(400).json({ error: "Via uzanto ne ekzistas" });
   }
   if (data.ban || !data.confirmed) {
     res

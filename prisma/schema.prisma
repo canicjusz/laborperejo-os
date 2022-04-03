@@ -40,6 +40,8 @@ model Profile {
   mv String?
   vk String?
   fb String?
+  li String?
+  website String?
   content String @db.Text
   resume String?
   email String
@@ -61,6 +63,8 @@ model Company {
   country String
   address String
   phone String?
+  li String?
+  website String?
   email String
   offers Offer[]
   created_at DateTime @default(now())

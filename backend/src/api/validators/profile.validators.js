@@ -40,6 +40,13 @@ const editCurrentSchema = yup.object({
   place: yup.string().max(100).required(),
   country: yup.mixed().oneOf(countries),
   resume: yup.string().nullable(),
+  website: yup.string().url().max(500).nullable(),
+  li: yup
+    .string()
+    .url()
+    .matches(/^(?:(?:http|https):\/\/)?(?:www.)?linkedin.com.*/)
+    .max(500)
+    .nullable(),
 });
 
 const getPageSchema = yup.object({

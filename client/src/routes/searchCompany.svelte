@@ -173,7 +173,8 @@
     font-size: 1.2rem
   
   .pagination
-    padding: 20px 0
+    box-sizing: border-box
+    padding: 20px
     width: 100%
     justify-content: center
     display: flex
@@ -228,7 +229,7 @@
       align-items: center
       display: flex
       flex-direction: column
-      padding-bottom: 70px
+      padding: 0 20px 70px 20px
   
     &__title
       margin: 0
@@ -245,4 +246,8 @@
   
     &:last-child
       border: none
+
+@media (max-width: 1000px)
+  .company
+    width: 100%
 </style>

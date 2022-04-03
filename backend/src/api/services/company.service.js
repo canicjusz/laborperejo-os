@@ -91,6 +91,8 @@ const getByID = async (id) =>
       email: true,
       country: true,
       address: true,
+      website: true,
+      li: true,
       created_at: true,
       administrators: {
         select: {

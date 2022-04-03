@@ -88,6 +88,7 @@ const middleware = (upload) => (req, res, next) => {
         });
       }
     } else if (err) {
+      console.log(err);
       return res.status(500).json({
         error:
           "Ni ial ne povis alŝuti la dosieron. Bonvolu reprovi poste, aŭ kontaktu nin retpoŝte.",

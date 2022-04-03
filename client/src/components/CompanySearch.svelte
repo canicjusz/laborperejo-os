@@ -369,4 +369,50 @@
     display: flex
     justify-content: center
     margin-bottom: 20px
+
+  @media (max-width: 1000px)
+    .filters__filter-categories
+      grid-template-columns: repeat(3, 1fr)
+
+    .filters__filter-countries
+      grid-template-rows: repeat(90, max-content)
+
+  @media (max-width: 800px)
+
+    .search-form
+      padding: 20px 20px 10px 20px
+
+    .filters__filter-categories
+      grid-template-columns: repeat(2, 1fr)
+
+    .filters__filter-countries
+      grid-template-rows: repeat(130, max-content)
+
+    .top
+      flex-direction: column
+
+    .filters__expander
+      width: 100%
+      justify-content: center
+      column-gap: 10px
+
+    .filters__expander-list
+      flex-direction: column
+
+    .form
+      
+      &__search, &__button
+        max-width: 100%
+        width: 100%
+
+  @media (max-width: 520px)
+    .filters__filter-employments-label, .filters__filter-arrangements-label
+      width: 100px !important
+      column-gap: 5px !important
+
+    .filters__filter-categories
+      grid-template-columns: 1fr
+
+    .filters__filter-countries
+      grid-template-rows: repeat(260, max-content)
 </style>

@@ -158,11 +158,13 @@
     </div>
     <div class="offer__left">
       <div class="offer__left-top">
-        <img
-          src={$user.companies[companyIndex].logo}
-          alt=""
-          class="offer__company-logo"
-        />
+        <div class="offer__company-logo-container">
+          <img
+            src={$user.companies[companyIndex].logo}
+            alt=""
+            class="offer__company-logo"
+          />
+        </div>
         <div class="offer__left-top-text">
           <label for="" class="offer__name">
             <input
@@ -411,7 +413,7 @@
     position: relative
     display: grid
     column-gap: 20px
-    grid-template-columns: 642px max-content
+    grid-template-columns: 642px 287px
 
     &__date
       color: #ffffff
@@ -447,6 +449,9 @@
         width: 200px
         height: 200px
         border-radius: 50%
+
+        &-container
+          text-align: center
 
     &__container
       display: flex
@@ -508,4 +513,33 @@
   display: flex
   column-gap: 10px
   position: absolute
+
+@media (max-width: 1000px)
+  .offer
+    grid-template-columns: minmax(100%, 642px)
+    margin: 0 20px
+    row-gap: 20px
+
+  .select-container
+    width: 100%
+    max-width: 100%
+
+@media (max-width: 700px)
+
+  .offer
+
+    &__name
+      text-align: center
+
+    &__left-top
+      grid-template-columns: auto
+
+      &-text
+        margin: 0
+      
+    &__avatar
+      text-align: center
+
+      &-container
+        text-align: center
 </style>

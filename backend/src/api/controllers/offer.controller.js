@@ -92,6 +92,7 @@ const create = async (req, res) => {
     data
   );
   if (error) {
+    console.log(error);
     return res.status(500).json({
       error:
         "Ni ial ne povis krei la oferton. Bonvolu reprovi poste, aŭ kontaktu nin retpoŝte.",
@@ -112,6 +113,7 @@ const remove = async (req, res) => {
         error: "Oferto kun ĉi tiu identigilo ne ekzistas.",
       });
     }
+    console.log(error);
     return res.status(500).json({
       error:
         "Ni ial ne povis forigi la oferton. Bonvolu reprovi poste, aŭ kontaktu nin retpoŝte.",
@@ -137,6 +139,7 @@ const editSeveral = async (req, res) => {
           error: "Oferto kun ĉi tiu identigilo ne ekzistas.",
         });
       }
+      console.log(error);
       return res.status(500).json({
         error:
           "Ni ial ne povis ĝisdatigi la oferton. Bonvolu reprovi poste, aŭ kontaktu nin retpoŝte.",
@@ -177,6 +180,7 @@ const get = async (req, res) => {
   const offerID = req.params.offerID;
   const [offer, error] = await handler(getByID, null, offerID);
   if (error) {
+    console.log(error);
     return res.status(500).json({
       error:
         "Ni ial ne povis akiri la oferton. Bonvolu reprovi poste, aŭ kontaktu nin retpoŝte.",
@@ -257,6 +261,7 @@ const removeFollower = async (req, res) => {
         });
       }
     }
+    console.log(error);
     return res.status(500).json({
       error:
         "Ni ial ne povis forigi la sekvanton de la oferto. Bonvolu reprovi poste, aŭ kontaktu nin retpoŝte.",

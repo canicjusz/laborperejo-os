@@ -84,9 +84,9 @@ const editPassword = async (req, res) => {
           error: "Ni ne povis elsaluti vin el aliaj klientoj.",
         });
       }
-      res.send("Via pasvorto ĝisdatiĝis");
+      return res.send("Via pasvorto ĝisdatiĝis");
     } else {
-      res.status(400).json({ error: "Malĝusta pasvorto." });
+      return res.status(400).json({ error: "Malĝusta pasvorto." });
     }
   } catch (e) {
     console.error(e);
