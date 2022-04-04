@@ -501,6 +501,7 @@
       font-size: 1.2rem 
 
 .company-picker
+  overflow-wrap: normal
   background: white
   border: 1px solid $szarszy
   padding: 10px

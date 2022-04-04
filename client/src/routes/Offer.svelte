@@ -2,7 +2,8 @@
   import axios from "axios";
   import Spinner from "../components/Spinner.svelte";
   import { Link, link } from "svelte-routing";
-  import { getDate } from "../shared";
+  import { user } from "../stores";
+  import { getDate, changeObservation } from "../shared";
 
   export let id;
   let title = "";
@@ -37,6 +38,32 @@
           <div class="offer__left-top-text">
             <span class="offer__name">
               {offer.title}
+              {#if $user?.ID}
+                <button
+                  on:click={() => changeObservation(offer.ID, offer)}
+                  class="offer__star"
+                  >{#if $user.watchlist.some((followedOffer) => followedOffer.ID === offer.ID)}
+                    <span class="offer__star-text">Malobservi</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      height="24"
+                      ><path fill="none" d="M0 0h24v24H0z" /><path
+                        d="M12 18.26l-7.053 3.948 1.575-7.928L.587 8.792l8.027-.952L12 .5l3.386 7.34 8.027.952-5.935 5.488 1.575 7.928z"
+                      /></svg
+                    >{:else}<span class="offer__star-text">Observi</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      height="24"
+                      ><path fill="none" d="M0 0h24v24H0z" /><path
+                        d="M12 18.26l-7.053 3.948 1.575-7.928L.587 8.792l8.027-.952L12 .5l3.386 7.34 8.027.952-5.935 5.488 1.575 7.928L12 18.26zm0-2.292l4.247 2.377-.949-4.773 3.573-3.305-4.833-.573L12 5.275l-2.038 4.42-4.833.572 3.573 3.305-.949 4.773L12 15.968z"
+                      /></svg
+                    >{/if}</button
+                >
+              {/if}
             </span>
             <span class="offer__company-name">
               <svg
@@ -181,6 +208,20 @@ $crimson: 	#DC143C
   column-gap: 20px
   grid-template-columns: 642px 287px
 
+  &__star
+    display: inline-flex
+    align-items: center
+    font-family: "Open Sans", sans-serif
+    font-size: 1rem
+    color: $navy
+    column-gap: 5px
+    cursor: pointer
+    background: transparent
+    border: 0
+
+    &-text
+      overflow-wrap: normal
+
   &__container
     display: flex
     justify-content: center
@@ -222,16 +263,17 @@ $crimson: 	#DC143C
     border-radius: 50%
     object-fit: cover
 
-
   &__name
+    display: flex
+    align-items: center
     font-size: 2rem
     font-family: 'Raleway', sans-serif
 
   &__edit, &__place, &__company-name, &__employment, &__arrangement, &__reward, &__close 
     font-family: "Open Sans", sans-serif
-    display: flex
     column-gap: 10px
-    align-items: center
+    grid-template-columns: 24px 1fr
+    display: grid
     text-decoration: none
 
 @media (max-width: 1000px)
@@ -243,7 +285,11 @@ $crimson: 	#DC143C
 @media (max-width: 700px)
   .offer
 
+    &__star-text
+      display: none
+
     &__name
+      justify-content: center
       text-align: center
 
     &__left-top

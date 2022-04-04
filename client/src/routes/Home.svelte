@@ -1,5 +1,5 @@
 <script>
-  import { link } from "svelte-routing";
+  import { link, navigate } from "svelte-routing";
   import { user } from "../stores";
   const scrollDown = () => {
     window.scroll({
@@ -8,6 +8,9 @@
       behavior: "smooth",
     });
   };
+  if ($user) {
+    navigate("/profiloj/" + $user.ID);
+  }
 </script>
 
 <svelte:head>
@@ -31,13 +34,7 @@
         <span class="hero__standing-out">internacie</span>!
       </h2>
       <div class="hero__buttons-container">
-        {#if $user}
-          <a class="hero__button" href={`/profiloj/${$user.ID}`} use:link
-            >Mia profilo</a
-          >
-        {:else}
-          <a class="hero__button" href="/registrigxi" use:link>Registriĝi</a>
-        {/if}
+        <a class="hero__button" href="/registrigxi" use:link>Registriĝi</a>
         <!-- svelte-ignore a11y-invalid-attribute -->
         <a class="hero__button" href="javascript:void(0)" on:click={scrollDown}
           >Ekscii pli</a

@@ -113,7 +113,6 @@
       offersOpenedNumber,
       ...editable
     } = res.data;
-    console.log(editable, res.data);
     if (!isOwner) {
       return navigate("/firmaoj/" + id);
     }

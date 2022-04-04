@@ -344,7 +344,6 @@
   <div bind:this={element} class="editor" />
 </div>
 <div class="popup__container" class:popup--on={showImagePopup}>
-  <div class="popup__container-background" />
   <div class="popup">
     <input
       type="text"
@@ -362,7 +361,6 @@
   </div>
 </div>
 <div class="popup__container" class:popup--on={showLinkPopup}>
-  <div class="popup__container-background" />
   <div class="popup">
     <input
       type="text"
@@ -445,6 +443,7 @@
     pointer-events: none
 
 .popup
+  box-shadow: 0 0 10px $najszarszy
   position: relative
   display: flex
   flex-direction: column
@@ -454,6 +453,8 @@
   width: 300px
   background: $szary
   padding: 10px
+  border-radius: 5px
+  border: 2px solid $szarszy
 
   &__input
     max-width: 100% !important
@@ -461,21 +462,12 @@
 
   &__container
     display: none
-
-    &-background
-      position: absolute
-      background: black
-      opacity: 0.3
-      width: 100%
-      height: 100%
-      top: 0
-      left: 0
   
   &--on
     display: flex
     align-items: center
     justify-content: center
-    z-index: 4
+    z-index: 2
     width: 100%
     height: 100%
     top: 0

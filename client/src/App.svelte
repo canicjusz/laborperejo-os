@@ -591,7 +591,7 @@
   padding: 10px
   position: fixed
   opacity: 0
-  z-index: 99
+  z-index: 3
   transition: 0.5s opacity, 0.5s transform
   color: white
   font-family: "Open Sans", sans-serif

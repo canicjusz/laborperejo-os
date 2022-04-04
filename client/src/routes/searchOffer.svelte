@@ -5,7 +5,7 @@
   import { user, error } from "../stores";
   import { globalHistory } from "svelte-routing/src/history";
   import Spinner from "../components/Spinner.svelte";
-  import { getDate } from "../shared";
+  import { getDate, changeObservation } from "../shared";
   let search = location.search;
   let urlSearchParams = new URLSearchParams(search);
   let currentPage = Number(urlSearchParams.get("p")) || 1;
@@ -66,41 +66,6 @@
       })
       .catch(error.change);
   donwloadData();
-  const changeObservation = (ID) => {
-    const isWatched = $user.watchlist.some((offer) => offer.ID === ID);
-    if (isWatched) {
-      axios
-        .delete(`/api/offers/${ID}/follow`)
-        .then((res) => {
-          const offerIndex = $user.watchlist.findIndex(
-            (offer) => offer.ID === ID
-          );
-          $user.watchlist.splice(offerIndex, 1);
-          $user.watchlist = $user.watchlist;
-        })
-        .catch(error.change);
-    } else {
-      axios
-        .post(`/api/offers/${ID}/follow`)
-        .then((res) => {
-          const offerIndex = offers.findIndex((offer) => offer.ID === ID);
-          const currOffer = offers[offerIndex];
-          $user.watchlist = [
-            ...$user.watchlist,
-            {
-              ID,
-              company: {
-                logo: currOffer.company.logo,
-              },
-              title: currOffer.title,
-              closed: currOffer.closed,
-              close_at: currOffer.close_at,
-            },
-          ];
-        })
-        .catch(error.change);
-    }
-  };
 </script>
 
 <svelte:head>
@@ -139,7 +104,7 @@
                 >
                 {#if $user?.ID}
                   <button
-                    on:click={() => changeObservation(offer.ID)}
+                    on:click={() => changeObservation(offer.ID, offer)}
                     class="offer__star"
                     >{#if $user.watchlist.some((followedOffer) => followedOffer.ID === offer.ID)}
                       <span class="offer__star-text">Malobservi</span>

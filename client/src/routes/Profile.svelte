@@ -9,7 +9,6 @@
   const getProfile = () =>
     axios.get(`/api/users/${id}`).then((res) => {
       name = res.data.name;
-      console.log(res.data);
       return res.data;
     });
 </script>
@@ -98,7 +97,7 @@
                   >
                     <!-- todo: add url -->
                     <embed
-                      src={"https://docs.google.com/viewerng/viewer?url=https://laborperejo.herokuapp.com" +
+                      src={"https://docs.google.com/viewerng/viewer?url=https://laborperejo.herokuapp.comf" +
                         user.profile.resume}
                       type="application/pdf"
                     />
@@ -315,8 +314,8 @@ $crimson: 	#DC143C
     
     &-element
       margin: 10px 0 0 0
-      display: flex
-      align-items: center
+      display: grid
+      grid-template-columns: 24px 1fr
       column-gap: 10px
 
   &__languages

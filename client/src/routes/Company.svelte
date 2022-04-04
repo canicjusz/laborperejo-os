@@ -276,8 +276,8 @@ $crimson: 	#DC143C
     
     &-element
       margin: 10px 0 0 0
-      display: flex
-      align-items: center
+      display: grid
+      grid-template-columns: 24px 1fr
       column-gap: 10px
 
   &__name

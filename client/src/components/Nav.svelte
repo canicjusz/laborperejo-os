@@ -1,7 +1,7 @@
 <script>
   import { Link, link, navigate } from "svelte-routing";
   import { user, error } from "../stores";
-  import { getDate } from "../shared";
+  import { getDate, changeObservation } from "../shared";
   import axios from "axios";
   import { globalHistory } from "svelte-routing/src/history";
 
@@ -22,7 +22,8 @@
     const element = e.target;
     if (
       !element.classList.contains("navbar__expander") &&
-      !element.classList.contains("star__svg")
+      !element.classList.contains("star__svg") &&
+      !element.classList.contains("offer__star-svg")
     ) {
       hideKeys.forEach((key) => {
         hide[key] = true;
@@ -120,11 +121,38 @@
                 <li class="window__element">
                   <img src={offer.company.logo} alt="" class="window__image" />
                   <div class="window__text">
-                    <a
-                      use:link
-                      href={"/ofertoj/" + offer.ID}
-                      class="window__link">{offer.title}</a
-                    >
+                    <span class="window__text-top">
+                      <a
+                        use:link
+                        href={"/ofertoj/" + offer.ID}
+                        class="window__link">{offer.title}</a
+                      >
+                      <button
+                        on:click={() => changeObservation(offer.ID, offer)}
+                        class="offer__star"
+                        >{#if $user.watchlist.some((followedOffer) => followedOffer.ID === offer.ID)}
+                          <svg
+                            class="offer__star-svg"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            height="24"
+                            ><path fill="none" d="M0 0h24v24H0z" /><path
+                              d="M12 18.26l-7.053 3.948 1.575-7.928L.587 8.792l8.027-.952L12 .5l3.386 7.34 8.027.952-5.935 5.488 1.575 7.928z"
+                            /></svg
+                          >{:else}
+                          <svg
+                            class="offer__star-svg"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            height="24"
+                            ><path fill="none" d="M0 0h24v24H0z" /><path
+                              d="M12 18.26l-7.053 3.948 1.575-7.928L.587 8.792l8.027-.952L12 .5l3.386 7.34 8.027.952-5.935 5.488 1.575 7.928L12 18.26zm0-2.292l4.247 2.377-.949-4.773 3.573-3.305-4.833-.573L12 5.275l-2.038 4.42-4.833.572 3.573 3.305-.949 4.773L12 15.968z"
+                            /></svg
+                          >{/if}</button
+                      >
+                    </span>
                     {#if offer.closed}
                       <small style="color: red;">La oferto jam fermiĝis</small>
                     {:else}
@@ -197,17 +225,6 @@
     <div class="navbar__right-side">
       {#if $user}
         <div class="star">
-          <svg
-            class="star__svg"
-            on:click={() => hideExpandedBut("watched")}
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            width="24"
-            height="24"
-            ><path fill="none" d="M0 0h24v24H0z" /><path
-              d="M12 18.26l-7.053 3.948 1.575-7.928L.587 8.792l8.027-.952L12 .5l3.386 7.34 8.027.952-5.935 5.488 1.575 7.928z"
-            /></svg
-          >
           <span class="star__number">{$user.watchlist.length}</span>
           <div
             class="navbar__window window"
@@ -223,11 +240,38 @@
                       class="window__image"
                     />
                     <div class="window__text">
-                      <a
-                        use:link
-                        href={"/ofertoj/" + offer.ID}
-                        class="window__link">{offer.title}</a
-                      >
+                      <span class="window__text-top">
+                        <a
+                          use:link
+                          href={"/ofertoj/" + offer.ID}
+                          class="window__link">{offer.title}</a
+                        >
+                        <button
+                          on:click={() => changeObservation(offer.ID, offer)}
+                          class="offer__star"
+                          >{#if $user.watchlist.some((followedOffer) => followedOffer.ID === offer.ID)}
+                            <svg
+                              class="offer__star-svg"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              width="24"
+                              height="24"
+                              ><path fill="none" d="M0 0h24v24H0z" /><path
+                                d="M12 18.26l-7.053 3.948 1.575-7.928L.587 8.792l8.027-.952L12 .5l3.386 7.34 8.027.952-5.935 5.488 1.575 7.928z"
+                              /></svg
+                            >{:else}
+                            <svg
+                              class="offer__star-svg"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              width="24"
+                              height="24"
+                              ><path fill="none" d="M0 0h24v24H0z" /><path
+                                d="M12 18.26l-7.053 3.948 1.575-7.928L.587 8.792l8.027-.952L12 .5l3.386 7.34 8.027.952-5.935 5.488 1.575 7.928L12 18.26zm0-2.292l4.247 2.377-.949-4.773 3.573-3.305-4.833-.573L12 5.275l-2.038 4.42-4.833.572 3.573 3.305-.949 4.773L12 15.968z"
+                              /></svg
+                            >{/if}</button
+                        >
+                      </span>
                       {#if offer.closed}
                         <small style="color: red;">La oferto jam fermiĝis</small
                         >
@@ -397,6 +441,10 @@
       justify-content: space-between
       column-gap: 5px
 
+      &-top
+        justify-content: space-between
+        display: flex
+
   .navbar
     z-index: 3
     position: fixed
@@ -537,6 +585,10 @@
     color: white
     background: $crimson
     font-size: 0.7rem
+
+.offer__star
+  border: none
+  background: transparent
 
 .hamburger
   z-index: 2
