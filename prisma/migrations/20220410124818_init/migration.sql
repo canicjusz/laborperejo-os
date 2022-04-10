@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE `User` (
+CREATE TABLE `User` IF NOT EXISTS (
     `ID` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE `User` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Profile` (
+CREATE TABLE `Profile` IF NOT EXISTS (
     `ID` INTEGER NOT NULL AUTO_INCREMENT,
     `user_name` VARCHAR(191) NOT NULL,
     `avatar` VARCHAR(191) NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE `Profile` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Company` (
+CREATE TABLE `Company` IF NOT EXISTS (
     `ID` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
     `logo` VARCHAR(191) NOT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE `Company` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Offer` (
+CREATE TABLE `Offer` IF NOT EXISTS (
     `ID` INTEGER NOT NULL AUTO_INCREMENT,
     `company_ID` INTEGER NOT NULL,
     `title` VARCHAR(191) NOT NULL,
@@ -82,7 +82,7 @@ CREATE TABLE `Offer` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Session` (
+CREATE TABLE `Session` IF NOT EXISTS (
     `id` VARCHAR(191) NOT NULL,
     `sid` VARCHAR(191) NOT NULL,
     `data` VARCHAR(191) NOT NULL,
@@ -93,7 +93,7 @@ CREATE TABLE `Session` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `PasswordToken` (
+CREATE TABLE `PasswordToken` IF NOT EXISTS (
     `token` VARCHAR(191) NOT NULL,
     `user_ID` INTEGER NOT NULL,
 
@@ -102,7 +102,7 @@ CREATE TABLE `PasswordToken` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `_CompanyToUser` (
+CREATE TABLE `_CompanyToUser` IF NOT EXISTS (
     `A` INTEGER NOT NULL,
     `B` INTEGER NOT NULL,
 
@@ -111,7 +111,7 @@ CREATE TABLE `_CompanyToUser` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `_OfferToUser` (
+CREATE TABLE `_OfferToUser` IF NOT EXISTS (
     `A` INTEGER NOT NULL,
     `B` INTEGER NOT NULL,
 
