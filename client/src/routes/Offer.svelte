@@ -10,6 +10,7 @@
 
   const loadOffer = axios.get(`/api/offers/${id}`).then((res) => {
     title = res.data.title;
+    console.log(res.data);
     return res.data;
   });
 </script>
@@ -31,7 +32,7 @@
       <div class="offer__left">
         <div class="offer__left-top">
           <div class="offer__logo-container">
-            <Link to={offer.companyID}>
+            <Link to={"/firmaoj/" + offer.company_ID}>
               <img src={offer.company.logo} alt="" class="offer__avatar" />
             </Link>
           </div>
@@ -75,7 +76,9 @@
                   d="M10 10.111V1l11 6v14H3V7z"
                 /></svg
               >
-              {offer.company.name}
+              <Link to={"/firmaoj/" + offer.company_ID}>
+                {offer.company.name}
+              </Link>
             </span>
             <span class="offer__place"
               ><svg
@@ -273,6 +276,7 @@ $crimson: 	#DC143C
     font-family: "Open Sans", sans-serif
     column-gap: 10px
     grid-template-columns: 24px 1fr
+    align-items: center
     display: grid
     text-decoration: none
 

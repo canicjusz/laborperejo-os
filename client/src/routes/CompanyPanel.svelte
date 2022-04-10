@@ -165,78 +165,80 @@
     </div>
   {/if}
   <div class="container-of-containers">
-    <div class="table__container">
-      <div class="table__real-container">
-        <table class="table">
-          <thead class="table__head">
-            <tr class="table__head-row">
-              <th class="table__column-title">Markemblemo</th>
-              <th class="table__column-title">Nomo</th>
-              <th class="table__column-title"
-                >Laborofertoj <small>(malfermitaj)</small></th
-              >
-              <th class="table__column-title">Redakti</th>
-              <th class="table__column-title">Forigi</th>
-            </tr>
-          </thead>
-          <tbody class="table__body">
-            {#if companies.length > 0}
-              {#each companies as company, i}
-                <tr class="table__body-row">
-                  <td class="table__cell"
-                    ><img src={company.logo} alt="" class="table__logo" /></td
-                  >
-                  <td class="table__cell"
-                    ><a href={`/firmaoj/${company.ID}`} use:link
-                      >{company.name}</a
-                    ></td
-                  >
-                  <td class="table__cell">
-                    {onlyOpened(company.offers).length}
-                  </td>
-                  <td class="table__cell">
-                    <button
-                      on:click={() =>
-                        navigate(`/firmaoj/${company.ID}/redakti`)}
-                      class="button__icon button__icon--blue"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        height="24"
-                        ><path fill="none" d="M0 0h24v24H0z" /><path
-                          d="M15.728 9.686l-1.414-1.414L5 17.586V19h1.414l9.314-9.314zm1.414-1.414l1.414-1.414-1.414-1.414-1.414 1.414 1.414 1.414zM7.242 21H3v-4.243L16.435 3.322a1 1 0 0 1 1.414 0l2.829 2.829a1 1 0 0 1 0 1.414L7.243 21z"
-                        /></svg
-                      ></button
-                    ></td
-                  >
-                  <td class="table__cell">
-                    <button
-                      on:click={() => fillToRemove(company.ID, i)}
-                      class="button__icon"
-                      ><svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        height="24"
-                        ><path fill="none" d="M0 0h24v24H0z" /><path
-                          d="M7 4V2h10v2h5v2h-2v15a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6H2V4h5zM6 6v14h12V6H6zm3 3h2v8H9V9zm4 0h2v8h-2V9z"
-                        /></svg
-                      ></button
-                    >
-                  </td>
-                </tr>
-              {/each}
-            {:else}
-              <tr class="table__body-row">
-                <td colspan="5" class="table__cell-info"
-                  >Ĉi tiu firmao ne havas ofertojn</td
+    <div style="max-width: 100%">
+      <div class="table__container">
+        <div class="table__real-container">
+          <table class="table">
+            <thead class="table__head">
+              <tr class="table__head-row">
+                <th class="table__column-title">Markemblemo</th>
+                <th class="table__column-title">Nomo</th>
+                <th class="table__column-title"
+                  >Laborofertoj <small>(malfermitaj)</small></th
                 >
+                <th class="table__column-title">Redakti</th>
+                <th class="table__column-title">Forigi</th>
               </tr>
-            {/if}
-          </tbody>
-        </table>
+            </thead>
+            <tbody class="table__body">
+              {#if companies.length > 0}
+                {#each companies as company, i}
+                  <tr class="table__body-row">
+                    <td class="table__cell"
+                      ><img src={company.logo} alt="" class="table__logo" /></td
+                    >
+                    <td class="table__cell"
+                      ><a href={`/firmaoj/${company.ID}`} use:link
+                        >{company.name}</a
+                      ></td
+                    >
+                    <td class="table__cell">
+                      {onlyOpened(company.offers).length}
+                    </td>
+                    <td class="table__cell">
+                      <button
+                        on:click={() =>
+                          navigate(`/firmaoj/${company.ID}/redakti`)}
+                        class="button__icon button__icon--blue"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          height="24"
+                          ><path fill="none" d="M0 0h24v24H0z" /><path
+                            d="M15.728 9.686l-1.414-1.414L5 17.586V19h1.414l9.314-9.314zm1.414-1.414l1.414-1.414-1.414-1.414-1.414 1.414 1.414 1.414zM7.242 21H3v-4.243L16.435 3.322a1 1 0 0 1 1.414 0l2.829 2.829a1 1 0 0 1 0 1.414L7.243 21z"
+                          /></svg
+                        ></button
+                      ></td
+                    >
+                    <td class="table__cell">
+                      <button
+                        on:click={() => fillToRemove(company.ID, i)}
+                        class="button__icon"
+                        ><svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          height="24"
+                          ><path fill="none" d="M0 0h24v24H0z" /><path
+                            d="M7 4V2h10v2h5v2h-2v15a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6H2V4h5zM6 6v14h12V6H6zm3 3h2v8H9V9zm4 0h2v8h-2V9z"
+                          /></svg
+                        ></button
+                      >
+                    </td>
+                  </tr>
+                {/each}
+              {:else}
+                <tr class="table__body-row">
+                  <td colspan="5" class="table__cell-info"
+                    >Ĉi tiu firmao ne havas ofertojn</td
+                  >
+                </tr>
+              {/if}
+            </tbody>
+          </table>
+        </div>
       </div>
       {#if creatingMode}
         <form on:submit|preventDefault={checkForm} class="form">
@@ -428,9 +430,7 @@
       border-bottom: $niebieski-link 3px solid
   
     &__container
-      margin: 0 20px
-      width: max-content
-      max-width: 100%
+      max-width: max-content
       overflow: hidden
   
     &__head
@@ -462,8 +462,12 @@
           background: $szary
   
   .container-of-containers
+    padding: 0 20px
+    box-sizing: border-box
+    flex-direction: column
     display: flex
     justify-content: center
+    align-items: center
   
   .button__icon
     background: $crimson

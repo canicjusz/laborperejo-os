@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE `User` IF NOT EXISTS (
+CREATE TABLE `User`(
     `ID` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE `User` IF NOT EXISTS (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Profile` IF NOT EXISTS (
+CREATE TABLE `Profile`(
     `ID` INTEGER NOT NULL AUTO_INCREMENT,
     `user_name` VARCHAR(191) NOT NULL,
     `avatar` VARCHAR(191) NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE `Profile` IF NOT EXISTS (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Company` IF NOT EXISTS (
+CREATE TABLE `Company`(
     `ID` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
     `logo` VARCHAR(191) NOT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE `Company` IF NOT EXISTS (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Offer` IF NOT EXISTS (
+CREATE TABLE `Offer`(
     `ID` INTEGER NOT NULL AUTO_INCREMENT,
     `company_ID` INTEGER NOT NULL,
     `title` VARCHAR(191) NOT NULL,
@@ -82,7 +82,7 @@ CREATE TABLE `Offer` IF NOT EXISTS (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Session` IF NOT EXISTS (
+CREATE TABLE `Session`(
     `id` VARCHAR(191) NOT NULL,
     `sid` VARCHAR(191) NOT NULL,
     `data` VARCHAR(191) NOT NULL,
@@ -93,7 +93,7 @@ CREATE TABLE `Session` IF NOT EXISTS (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `PasswordToken` IF NOT EXISTS (
+CREATE TABLE `PasswordToken`(
     `token` VARCHAR(191) NOT NULL,
     `user_ID` INTEGER NOT NULL,
 
@@ -102,7 +102,7 @@ CREATE TABLE `PasswordToken` IF NOT EXISTS (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `_CompanyToUser` IF NOT EXISTS (
+CREATE TABLE `_CompanyToUser`(
     `A` INTEGER NOT NULL,
     `B` INTEGER NOT NULL,
 
@@ -111,7 +111,7 @@ CREATE TABLE `_CompanyToUser` IF NOT EXISTS (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `_OfferToUser` IF NOT EXISTS (
+CREATE TABLE `_OfferToUser`(
     `A` INTEGER NOT NULL,
     `B` INTEGER NOT NULL,
 

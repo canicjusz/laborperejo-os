@@ -9,6 +9,7 @@
   let p = 1;
   let isMore = true;
   let name;
+  let isLoading = false;
 
   const getCompany = axios.get(`/api/companies/${id}`).then((res) => {
     loadOffers();
@@ -17,12 +18,14 @@
   });
 
   const loadOffers = () => {
+    isLoading = true;
     axios.get(`/api/offers?de=${id}&p=${p}`).then((res) => {
       const { offers: newOffers, pages } = res.data;
       offers = offers.concat(newOffers);
-      if (pages <= p) {
+      if (pages <= p++) {
         isMore = false;
       }
+      isLoading = false;
     });
   };
 
@@ -79,45 +82,55 @@
           </div>
         </div>
         <div class="company__left-bottom">
-          {@html company.description}
-          {#if offers.length > 0}
-            <div class="table__container">
-              <div class="table__container-real">
-                <table class="table">
-                  <thead class="table__head">
-                    <tr class="table__head-row">
-                      <th class="table__column-title">Laborposteno</th>
-                      <th class="table__column-title">Lando</th>
-                      <th class="table__column-title">Rekompenco</th>
-                      <th class="table__column-title">Malfermita</th>
-                    </tr>
-                  </thead>
-                  <tbody class="table__body">
-                    {#each offers as offer}
-                      <tr class="table__body-row">
-                        <td class="table__cell"
-                          ><a href={`/ofertoj/${offer.ID}`} use:link
-                            >{offer.title}</a
-                          ></td
-                        >
-                        <td class="table__cell">{offer.country}</td>
-                        <td class="table__cell"
-                          >{offer.reward}
-                          {#if offer.salary}<small>(Salajro)</small>{/if}</td
-                        >
-                        <td class="table__cell"
-                          >{offer.closed ? "Ne" : "Jes"}</td
-                        >
+          <div>
+            {@html company.description}
+            {#if offers.length > 0}
+              <div class="table__container">
+                <div class="table__real-container">
+                  <table class="table">
+                    <thead class="table__head">
+                      <tr class="table__head-row">
+                        <th class="table__column-title">Laborposteno</th>
+                        <th class="table__column-title">Lando</th>
+                        <th class="table__column-title">Rekompenco</th>
+                        <th class="table__column-title">Malfermita</th>
                       </tr>
-                    {/each}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody class="table__body">
+                      {#each offers as offer}
+                        <tr class="table__body-row">
+                          <td class="table__cell"
+                            ><a href={`/ofertoj/${offer.ID}`} use:link
+                              >{offer.title}</a
+                            ></td
+                          >
+                          <td class="table__cell">{offer.country}</td>
+                          <td class="table__cell"
+                            >{offer.reward}
+                            {#if offer.salary}<small>(Salajro)</small>{/if}</td
+                          >
+                          <td class="table__cell"
+                            >{offer.closed ? "Ne" : "Jes"}</td
+                          >
+                        </tr>
+                      {/each}
+                    </tbody>
+                  </table>
+                </div>
               </div>
-            </div>
-          {/if}
-          {#if isMore}
-            <button on:click={loadOffers}>Montri pliajn ofertojn</button>
-          {/if}
+            {/if}
+            {#if isLoading}
+              <div class="spinner__container">
+                <Spinner />
+              </div>
+            {:else if isMore}
+              <button
+                on:click={loadOffers}
+                class="button button--blue button--round"
+                >Montri pliajn ofertojn</button
+              >
+            {/if}
+          </div>
         </div>
       </div>
       <div class="company__right">
@@ -223,11 +236,23 @@ $zielony: #7cb54b
 $ciemny-zielony: #4caf50
 $crimson: 	#DC143C
 
+.container-of-containers
+  padding: 0 20px
+  box-sizing: border-box
+  flex-direction: column
+  display: flex
+  justify-content: center
+  align-items: center
+
 .spinner__container
   text-align: center
   padding-top: 20px
 
 .company
+  width: 100%
+  box-sizing: border-box
+  padding: 0 20px
+  justify-content: center
   display: grid
   column-gap: 20px
   grid-template-columns: 642px 287px
@@ -245,6 +270,7 @@ $crimson: 	#DC143C
     border: solid 1px $szarszy
 
   &__left
+
     &-top
       display: grid
       grid-template-columns: 200px auto
@@ -278,6 +304,7 @@ $crimson: 	#DC143C
       margin: 10px 0 0 0
       display: grid
       grid-template-columns: 24px 1fr
+      align-items: center
       column-gap: 10px
 
   &__name
@@ -305,9 +332,6 @@ $crimson: 	#DC143C
     border-bottom: $niebieski-link 3px solid
 
   &__container
-    margin: 0 20px
-    width: max-content
-    max-width: 100%
     overflow: hidden
 
   &__head
@@ -338,6 +362,10 @@ $crimson: 	#DC143C
       &:nth-of-type(even)
         background: $szary
 
+.button
+  max-width: 250px
+  margin-top: 10px
+
 @media (max-width: 1000px)
   .company
     grid-template-columns: minmax(100%, 642px)
@@ -345,6 +373,9 @@ $crimson: 	#DC143C
     row-gap: 20px
 
 @media (max-width: 700px)
+  .button
+    max-width: 100%
+  
   .company
 
     &__name

@@ -316,6 +316,7 @@ $crimson: 	#DC143C
       margin: 10px 0 0 0
       display: grid
       grid-template-columns: 24px 1fr
+      align-items: center
       column-gap: 10px
 
   &__languages
