@@ -27,6 +27,8 @@ CREATE TABLE `Profile` (
     `mv` VARCHAR(191) NULL,
     `vk` VARCHAR(191) NULL,
     `fb` VARCHAR(191) NULL,
+    `li` VARCHAR(191) NULL,
+    `website` VARCHAR(191) NULL,
     `content` TEXT NOT NULL,
     `resume` VARCHAR(191) NULL,
     `email` VARCHAR(191) NOT NULL,
@@ -49,6 +51,8 @@ CREATE TABLE `Company` (
     `country` VARCHAR(191) NOT NULL,
     `address` VARCHAR(191) NOT NULL,
     `phone` VARCHAR(191) NULL,
+    `li` VARCHAR(191) NULL,
+    `website` VARCHAR(191) NULL,
     `email` VARCHAR(191) NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 

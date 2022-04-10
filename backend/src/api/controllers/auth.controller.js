@@ -150,7 +150,18 @@ const confirmEmail = async (req, res) => {
         throw err;
       }
       const email = decoded.email;
-      await makeVerifiedByEmail(email);
+      const [, verificationError] = await handler(
+        makeVerifiedByEmail,
+        null,
+        email
+      );
+      if (verificationError) {
+        console.error(verificationError);
+        return res.status(500).json({
+          error:
+            "Ni ial ne povis konfirmi la registriĝon. Bonvolu reprovi poste, aŭ kontaktu nin retpoŝte.",
+        });
+      }
       res.send("Via profilo ĝisdatiĝis");
     });
   } catch (e) {

@@ -100,7 +100,7 @@ const getCredentialsByEmail = async (email) =>
     },
   });
 
-const makeVerifiedByEmail = async (email) =>
+const makeVerifiedByEmail = async (email) => {
   await prisma.user.update({
     where: {
       email,
@@ -109,6 +109,7 @@ const makeVerifiedByEmail = async (email) =>
       confirmed: true,
     },
   });
+};
 
 const createPasswordToken = async (token, email) =>
   await prisma.passwordToken.create({

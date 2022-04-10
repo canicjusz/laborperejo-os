@@ -37,7 +37,7 @@ function serve() {
 export default {
   input: "src/main.js", // not changed
   output: {
-    sourcemap: true,
+    sourcemap: false,
     format: "es",
     dir: "public/build/",
   },

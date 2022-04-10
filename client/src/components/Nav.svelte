@@ -46,9 +46,9 @@
 
 <nav class="navbar navbar--full">
   <ul class="navbar__list">
-    <li class="navbar__element">
-      <Link to="/" class="navbar__link"
-        ><img src="/emblemo.jpg" alt="" class="navbar__logo" /></Link
+    <li>
+      <Link to="/" class="navbar__logo-container"
+        ><img src="/logo.png" alt="" class="navbar__logo" /></Link
       >
     </li>
     <li class="navbar__element">
@@ -220,7 +220,7 @@
 <nav class="navbar navbar--mobile">
   <div class="navbar__inner-container">
     <Link to="/" class="navbar__logo-container"
-      ><img src="/emblemo.jpg" alt="" class="navbar__logo" /></Link
+      ><img src="/logo.png" alt="" class="navbar__logo" /></Link
     >
     <div class="navbar__right-side">
       {#if $user}
@@ -461,8 +461,14 @@
       display: none
 
     &__logo
-      height: 100%
       width: 100%
+
+      &-container
+        padding: 0 10px
+        height: 100%
+        align-items: center
+        display: flex
+        width: 150px
     
     &__list
       height: 100%
@@ -666,13 +672,6 @@
       align-items: center
       height: 100%
       column-gap: 20px
-
-    &__logo
-
-      &-container
-        height: 100%
-        display: flex
-        width: 150px
 
     &--full
       display: none
