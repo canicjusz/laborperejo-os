@@ -575,7 +575,6 @@
     input
       border: none !important
       border-bottom: 2px solid $szarszy !important
-      // box-sizing: content-box
       transition: 0.3s border-color
 
       &:focus-visible
