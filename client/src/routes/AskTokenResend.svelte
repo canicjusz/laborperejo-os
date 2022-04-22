@@ -58,7 +58,7 @@
       <button
         type="submit"
         class="button button--round button--green"
-        disabled={sending}>Ensaluti</button
+        disabled={sending}>Resendi</button
       >
     </div>
   </form>

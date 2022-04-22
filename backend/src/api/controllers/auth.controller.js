@@ -48,8 +48,41 @@ const sendConfirmationEmail = async (email) => {
     from: ourEmail,
     to: email,
     subject: "Bonvenon al Laborperejo!",
-    html: `Bonvenon al Laborperejo!
-        Vi povas konfirmi vian registriĝon per <a href="${url}">ĉi tiu ligilo</a>.`,
+    html: `
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html>
+      <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <style type="text/css">
+          .ExternalClass {width: 100%;}
+      </style>
+      </head>
+      <body style="font-family: Arial, Helvetica, sans-serif">
+        <table cellpadding="0" cellspacing="0" border="0" style="max-width: 600px">
+          <tbody>
+            <td>
+              <table cellpadding="0" cellspacing="0" border="0" style="width: 100%">
+                  <tbody>
+                      <td style="text-align: center">
+                          <img src="https://laborperejo.herokuapp.com/logo.png" />
+                      </td>
+                  </tbody>
+              </table>
+              <h1>Bonvenon al Laborperejo!</h1>
+
+              <p>Vi povas konfirmi vian registriĝon per la suba butono.</p>
+              <table cellpadding="0" cellspacing="0" border="0" style="width: 100%">
+                  <tbody>
+                      <td style="text-align: center">
+                        <a href="${url}" style="height: 50px; width: 200px; background: #1b75bc; color: white; display: inline-block; line-height: 50px; text-decoration: none; border-radius: 30px;">Finregistriĝi</a>
+                      </td>
+                  </tbody>
+              </table>
+            </td>
+          </tbody>
+        </table>
+      </body>
+    </html>`,
   });
   return "Farite";
 };
@@ -108,7 +141,7 @@ const resendConfirmationEmail = async (req, res) => {
     if (searchError) {
       throw searchError;
     }
-    if (!credentials.password) {
+    if (!credentials) {
       return res.status(400).json({
         error: "Uzanto kun ĉi tiu retpoŝtadreso ne ekzistas.",
       });
@@ -190,8 +223,7 @@ const register = async (req, res) => {
       }
       throw creationError;
     }
-    const [x, emailError] = await handler(sendConfirmationEmail, null, email);
-    //
+    const [, emailError] = await handler(sendConfirmationEmail, null, email);
     if (emailError) {
       console.error(emailError);
       return res.status(500).json({
@@ -268,14 +300,14 @@ const sendPasswordReset = async (req, res) => {
     if (error) {
       if (
         error instanceof Prisma.PrismaClientKnownRequestError &&
-        (error.code === "P2025" || error.code === "P2011")
+        (error.code === "P2025" || error.code === "P2003")
       ) {
         if (error.code === "P2025") {
           return res.status(400).json({
             error: "Uzanto kun ĉi tiu retpoŝtadreso ne ekzistas.",
           });
         }
-        if (error.code === "P2011") {
+        if (error.code === "P2003") {
           return res.status(422).json({
             error: "La retpoŝtmesaĝo jam estis al vi sendita antaŭe.",
           });
@@ -296,8 +328,42 @@ const sendPasswordReset = async (req, res) => {
       from: ourEmail,
       to: email,
       subject: "Restarigi pasvorton",
-      html: `Saluton!
-    Vi petis restarigon de la pasvorto de via konto. Vi povas fari ĉi tion per <a href="${url}">ĉi tiu ligilo</a>.`,
+      html: `
+      <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+      <html>
+        <head>
+          <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+          <style type="text/css">
+            .ExternalClass {width: 100%;}
+        </style>
+        </head>
+        <body style="font-family: Arial, Helvetica, sans-serif">
+          <table cellpadding="0" cellspacing="0" border="0" style="max-width: 600px">
+            <tbody>
+              <td>
+                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%">
+                    <tbody>
+                        <td style="text-align: center">
+                            <img src="https://laborperejo.herokuapp.com/logo.png" />
+                        </td>
+                    </tbody>
+                </table>
+                <p>Saluton,</p>
+      
+                <p>Vi petis restarigi la pasvorton de via konto. Vi povas fari ĉi tion per la suba butono.</p>
+                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%">
+                    <tbody>
+                        <td style="text-align: center">
+                          <a href="${url}" style="height: 50px; width: 200px; background: #1b75bc; color: white; display: inline-block; line-height: 50px; text-decoration: none; border-radius: 30px;">Restarigi</a>
+                        </td>
+                    </tbody>
+                </table>
+                <p>Se vi ne volas restarigi la pasvorton, simple ignoru la mesaĝon kaj ne alklaku la butonon. Ĝi senvalidiĝos post 2 horoj.</p>
+              </td>
+            </tbody>
+          </table>
+        </body>
+      </html>`,
     });
     res.send("Ni sendis la mesaĝon kun restarig-ligilon al vi.");
   } catch (e) {
@@ -331,18 +397,6 @@ const getSession = (req, res) => {
 const passwordReset = async (req, res) => {
   try {
     const { id, token, password } = req.body;
-    const [tokenDB, error] = await handler(deletePasswordTokenByID, null, id);
-    if (error) {
-      if (
-        error instanceof Prisma.PrismaClientKnownRequestError &&
-        error.code === "P2025"
-      ) {
-        return res.status(404).json({
-          error: "Ĉi tiu ĵetono ne ekzistas.",
-        });
-      }
-      throw error;
-    }
 
     jwt.verify(
       token,
@@ -360,6 +414,22 @@ const passwordReset = async (req, res) => {
             });
           }
           throw err;
+        }
+        const [tokenDB, deletingError] = await handler(
+          deletePasswordTokenByID,
+          null,
+          id
+        );
+        if (deletingError) {
+          if (
+            deletingError instanceof Prisma.PrismaClientKnownRequestError &&
+            deletingError.code === "P2025"
+          ) {
+            return res.status(404).json({
+              error: "Ĉi tiu ĵetono ne ekzistas.",
+            });
+          }
+          throw deletingError;
         }
 
         const isValid = await bcrypt.compare(decoded.token, tokenDB.token);
