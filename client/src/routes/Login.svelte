@@ -123,7 +123,7 @@
           id="remember-me"
           disabled={sending}
           bind:checked={values.saveSession}
-        />Memoru min</label
+        />Memori min</label
       >
     </div>
     <div>

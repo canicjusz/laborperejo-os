@@ -679,9 +679,10 @@ hr
 
   &__industry, &__place, &__country, &__name
     font-family: "Open Sans", sans-serif
-    display: flex
-    column-gap: 10px
+    display: grid
+    grid-template-columns: 24px 1fr
     align-items: center
+    column-gap: 10px
     text-decoration: none
 
 .admin

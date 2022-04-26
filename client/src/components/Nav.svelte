@@ -490,6 +490,7 @@
       display: flex
 
       &-left
+        column-gap: 10px
 
         .navbar__expander::after
           margin-right: 20px

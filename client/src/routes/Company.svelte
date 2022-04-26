@@ -311,11 +311,17 @@ $crimson: 	#DC143C
     font-size: 2rem
     font-family: 'Raleway', sans-serif
 
-  &__industry, &__creation, &__place, &__edit
-    font-family: "Open Sans", sans-serif
-    display: flex
-    column-gap: 10px
+  &__industry, &__creation,   &__place, &__edit
+    display: grid
+    grid-template-columns: 24px 1fr
     align-items: center
+    column-gap: 10px
+
+  &__industry
+    margin: 0 0 10px 0
+
+  &__place, &__edit
+    font-family: "Open Sans", sans-serif
     text-decoration: none
 
 .table

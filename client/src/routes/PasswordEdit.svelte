@@ -18,7 +18,7 @@
       .required("Bonvolu entajpi la novan pasvorton")
       .matches(
         /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])[\w#?!@$%^&*ĤŜĜĈĴŬĥŝĝĉĵŭ-]{8,128}$/,
-        "La pasvorto enhavu almenaŭ 8 signojn, unu ĉefliteron, unu malĉefliteron. Oni povas aldone uzi jenajn specjalajn signojn: #?!@$%^&*-_"
+        "La pasvorto enhavu almenaŭ 8 signojn, ciferon, unu ĉefliteron, unu malĉefliteron. Oni povas aldone uzi jenajn specjalajn signojn: #?!@$%^&*-_"
       )
       .test(
         "match",

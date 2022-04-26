@@ -45,7 +45,7 @@
       .required("Bonvolu entajpi vian pasvorton")
       .matches(
         /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])[\w#?!@$%^&*ĤŜĜĈĴŬĥŝĝĉĵŭ-]{8,128}$/,
-        "La pasvorto enhavu almenaŭ 8 signojn, unu ĉefliteron, unu malĉefliteron. Oni povas aldone uzi jenajn specjalajn signojn: #?!@$%^&*-_"
+        "La pasvorto enhavu almenaŭ 8 signojn, ciferon, unu ĉefliteron, unu malĉefliteron. Oni povas aldone uzi jenajn specjalajn signojn: #?!@$%^&*-_"
       ),
     passwordRetype: yup
       .mixed()
@@ -278,8 +278,8 @@
     <div class="password">
       <label for="password"
         >Pasvorto <small
-          >almenaŭ 8 signoj: unu ĉeflitero, unu malĉeflitero. Oni povas uzi
-          tiujn simbolojn: #?!@$%^&*-_</small
+          >almenaŭ 8 signoj: unu ĉeflitero, ciferon, unu malĉeflitero. Oni povas
+          uzi tiujn simbolojn: #?!@$%^&*-_</small
         ></label
       >
       {#if show}

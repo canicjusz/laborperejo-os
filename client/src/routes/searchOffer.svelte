@@ -280,7 +280,8 @@ $crimson: 	#DC143C
     margin: 0
 
   &__star
-    display: inline-flex
+    display: inline-grid
+    grid-template-columns: 1fr 24px
     align-items: center
     font-family: "Open Sans", sans-serif
     font-size: 1rem

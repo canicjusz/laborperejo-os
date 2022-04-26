@@ -330,11 +330,11 @@ $crimson: 	#DC143C
       margin: 0
 
   &__status
-    display: flex
-    column-gap: 10px
+    margin: 0 0 10px 0
+    display: grid
+    grid-template-columns: 24px 1fr
     align-items: center
-    // border-bottom: 1px solid $szarszy
-    margin-bottom: 10px
+    column-gap: 10px
 
   &__name
     font-size: 2rem
@@ -342,9 +342,10 @@ $crimson: 	#DC143C
 
   &__edit, &__place
     font-family: "Open Sans", sans-serif
-    display: flex
-    column-gap: 10px
+    display: grid
+    grid-template-columns: 24px 1fr
     align-items: center
+    column-gap: 10px
     text-decoration: none
 
   &__resume

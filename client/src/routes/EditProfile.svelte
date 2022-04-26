@@ -110,7 +110,7 @@
       )
       .max(500, "Ligilo ne povas havi pli ol 500 signojn.")
       .nullable(),
-      website: yup
+    website: yup
       .string()
       .transform((string) => (string == "" ? null : string))
       .url("La ligilo ne estas valida.")
@@ -717,6 +717,11 @@
         display: flex
         align-items: flex-end
         column-gap: 10px
+
+    &__job-text, &__languages-title
+      display: flex
+      align-items: center
+      column-gap: 10px
 
     &__status
       display: flex
