@@ -104,6 +104,7 @@ model PasswordToken {
   token String @id
   user User? @relation(fields: [user_ID], references: [ID])
   user_ID Int
+  expiresAt   DateTime
 }
 
 enum Role {

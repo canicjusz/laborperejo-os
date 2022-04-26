@@ -70,16 +70,6 @@ const getPasswordByID = async (ID) =>
     },
   });
 
-const getPasswordByEmail = async (email) =>
-  await prisma.user.findFirst({
-    where: {
-      email,
-    },
-    select: {
-      password: true,
-    },
-  });
-
 const updatePassword = async (ID, password) =>
   await prisma.user.update({
     where: {
@@ -111,9 +101,12 @@ const makeVerifiedByEmail = async (email) => {
   });
 };
 
-const createPasswordToken = async (token, email) =>
-  await prisma.passwordToken.create({
+const createPasswordToken = async (token, email) => {
+  const expireDate = new Date();
+  expireDate.setHours(expireDate.getHours() + 2);
+  return await prisma.passwordToken.create({
     data: {
+      expiresAt: expireDate,
       token,
       user: {
         connect: { email },
@@ -127,6 +120,7 @@ const createPasswordToken = async (token, email) =>
       },
     },
   });
+};
 
 const deletePasswordTokenByID = async (id) =>
   await prisma.passwordToken.delete({
@@ -156,7 +150,6 @@ export {
   createTemplate,
   getBanAndConfirmed,
   getPasswordByID,
-  getPasswordByEmail,
   updatePassword,
   getCredentialsByEmail,
   makeVerifiedByEmail,

@@ -10,7 +10,6 @@ import {
   getCredentialsByEmail,
   createPasswordToken,
   deletePasswordTokenByID,
-  getPasswordByEmail,
 } from "../services/user.service.js";
 import { getUserAndProfileByID } from "../services/profile.service.js";
 import { createTemplate } from "../services/user.service.js";
